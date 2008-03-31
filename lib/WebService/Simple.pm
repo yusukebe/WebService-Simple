@@ -35,7 +35,7 @@ sub _make_url{
     my @params;
     map {push(@params, "$_=" . URI::Escape::uri_escape_utf8($self->{param}->{$_}))}
 	keys %{$self->{param}};
-    map {push(@params, "$_=" . URI::Escape::uri_escape_utf8($request_param->{$_}))} 
+    map {push(@params, "$_=" . URI::Escape::uri_escape_utf8($request_param->{$_}))}
 	keys %$request_param;
     my $str = join("&",@params);
     $url .= $str;
