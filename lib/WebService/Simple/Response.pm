@@ -23,10 +23,19 @@ __END__
 
     Webservice::Simple::Response - Override HTTP::Request and add a xml_parse method
 
-
 =head1 VERSION
 
 This document describes Webservice::Simple::Response version 0.0.1
+
+=head1 METHODS
+
+=over 4
+
+=item parse_xml(I<%args>)
+
+Parse a xml content with XML::Simple and return the Perl object.
+
+=back
 
 =head1 AUTHOR
 

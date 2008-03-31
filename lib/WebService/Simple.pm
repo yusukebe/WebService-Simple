@@ -5,6 +5,7 @@ use strict;
 use Carp;
 use URI::Escape;
 use LWP::UserAgent;
+use URI::Escape;
 use WebService::Simple::Response;
 
 our $VERSION = '0.01';
@@ -32,8 +33,10 @@ sub _make_url{
     my $base_url = $self->{base_url};
     my $url = $base_url =~ /\?$/ ? $base_url : $base_url . "?";
     my @params;
-    map {push(@params, "$_=" . $self->{param}->{$_})}  keys %{$self->{param}};
-    map {push(@params, "$_=" . $request_param->{$_})}  keys %$request_param;
+    map {push(@params, "$_=" . URI::Escape::uri_escape_utf8($self->{param}->{$_}))}
+	keys %{$self->{param}};
+    map {push(@params, "$_=" . URI::Escape::uri_escape_utf8($request_param->{$_}))} 
+	keys %$request_param;
     my $str = join("&",@params);
     $url .= $str;
     return $url;
