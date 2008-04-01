@@ -7,15 +7,16 @@ use URI::Escape;
 use LWP::UserAgent;
 use URI::Escape;
 use WebService::Simple::Response;
+use Data::Dumper;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 sub new {
-    my ($class, $base_url, $param) = @_;
-    croak "paramater base_url is required" unless $base_url;
+    my ($class, %opt) = @_;
+    croak "paramater base_url is required" unless $opt{base_url};
     my $self = bless {
-		      base_url => $base_url,
-		      param => $param,
+		      ua => LWP::UserAgent->new,
+		      %opt,
 		  }, $class;
     $self;
 }
@@ -23,9 +24,24 @@ sub new {
 sub get {
     my ($self, $request_param) = @_;
     my $url = $self->_make_url($request_param);
-    my $ua = LWP::UserAgent->new;
-    my $response = $ua->get($url);
+    my $response = $self->_fetch_url($url);
+    return $response;
+}
+
+sub _fetch_url{
+    my ($self,$url) = @_;
+    my $response;
+    if(exists $self->{cache}){
+	$response = $self->{cache}->thaw($url);
+	if(defined $response){
+	    return $response;
+	}
+    }
+    $response = $self->{ua}->get($url);
     croak "can't get the request" unless $response->is_success;
+    if(exists $self->{cache}) {
+        $self->{cache}->freeze($url, $response);
+    }
     return $response;
 }
 sub _make_url{
@@ -59,8 +75,8 @@ This document describes WebService::Simple version 0.01
     use WebService::Simple;
 
     my $flickr = WebService::Simple->new(
-        "http://api.flickr.com/services/rest/",
-        { api_key => "your_api_key", }
+        base_url => "http://api.flickr.com/services/rest/",
+        param    => { api_key => "your_api_key", }
     );
     my $response =
       $flickr->get( { method => "flickr.test.echo", name => "value" } );
@@ -78,8 +94,8 @@ WebService::Simple provides you a simple interface to any Web Servcie APIs
 =item new(I<%args>)
 
     my $flickr = WebService::Simple->new(
-        "http://api.flickr.com/services/rest/",
-        { api_key => "your_api_key", }
+        base_url => "http://api.flickr.com/services/rest/",
+        param    => { api_key => "your_api_key", }
     );
 
 Create and return a new WebService::Simple object.
@@ -93,6 +109,23 @@ Create and return a new WebService::Simple object.
 Get the WebService::Simple::Response object.
 
 =back
+
+=head1 CACHING
+
+Cache the response of Web Service APIs by using Cache object.
+Here's an example.
+
+    my $cache = Cache::File->new(
+        cache_root      => '/tmp/mycache',
+        default_expires => '30 min',
+    );
+
+    my $flickr = WebService::Simple->new(
+        base_url => "http://api.flickr.com/services/rest/",
+        cache    => $cache,
+        param    => { api_key => $api_key, }
+    );
+
 
 =head1 AUTHOR
 
