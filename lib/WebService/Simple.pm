@@ -11,12 +11,13 @@ use WebService::Simple::Response;
 our $VERSION = '0.02';
 
 sub new {
-    my ($class, %opt) = @_;
-    croak "paramater base_url is required" unless $opt{base_url};
+    my $class = shift;
+    my $opt = ref $_[0] eq 'HASH' ? shift: {@_};
+    croak "paramater base_url is required" unless $opt->{base_url};
     my $self = bless {
-		      ua => LWP::UserAgent->new,
-		      %opt,
-		  }, $class;
+        ua => LWP::UserAgent->new,
+        %$opt,
+    }, $class;
     $self;
 }
 
@@ -76,8 +77,7 @@ WebService::Simple - Simple interface to any Web Service APIs
 
 =head1 VERSION
 
-This document describes WebService::Simple version 0.01
-
+This document describes WebService::Simple version 0.02
 
 =head1 SYNOPSIS
 
