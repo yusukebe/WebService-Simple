@@ -3,7 +3,7 @@ use warnings;
 use WebService::Simple;
 use Cache::File;
 
-my $api_key = "a1e16e8713317f660e405bb6e047734f";
+my $api_key = "your_api_key";
 my $cache   = Cache::File->new(
     cache_root      => '/tmp/mycache',
     default_expires => '30 min',
