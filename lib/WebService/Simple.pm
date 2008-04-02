@@ -7,7 +7,6 @@ use URI::Escape;
 use LWP::UserAgent;
 use URI::Escape;
 use WebService::Simple::Response;
-use Data::Dumper;
 
 our $VERSION = '0.02';
 
@@ -49,14 +48,24 @@ sub _make_url{
     my $base_url = $self->{base_url};
     my $url = $base_url =~ /\?$/ ? $base_url : $base_url . "?";
     my @params;
-    map {push(@params, "$_=" . URI::Escape::uri_escape_utf8($self->{param}->{$_}))}
-	keys %{$self->{param}};
-    map {push(@params, "$_=" . URI::Escape::uri_escape_utf8($request_param->{$_}))}
-	keys %$request_param;
+    push(@params, $self->_hashref_to_str($self->{param}));
+    push(@params, $self->_hashref_to_str($request_param));
     my $str = join("&",@params);
-    $url .= $str;
-    return $url;
+    return $url . $str;
 }
+
+sub _hashref_to_str {
+    my ($self, $ref) = @_;
+    my @strs;
+    foreach my $key ( keys %$ref ){
+	my $value = $ref->{$key};
+	utf8::decode($value) unless utf8::is_utf8($value);
+	my $str = "$key=" . URI::Escape::uri_escape_utf8($value);
+	push(@strs, $str);
+    }
+    return @strs;
+}
+
 
 1;
 __END__
