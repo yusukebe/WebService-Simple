@@ -5,7 +5,6 @@ use strict;
 use Carp;
 use URI::Escape;
 use LWP::UserAgent;
-use URI::Escape;
 use WebService::Simple::Response;
 
 our $VERSION = '0.02';

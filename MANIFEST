@@ -9,3 +9,6 @@ t/00.load.t
 t/perlcritic.t
 t/pod-coverage.t
 t/pod.t
+example/flickr_echo.pl
+example/flickr_search.pl
+example/lingr.pl

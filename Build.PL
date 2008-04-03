@@ -8,8 +8,11 @@ my $builder = Module::Build->new(
     dist_author         => 'Yusuke Wada <yusuke@kamawada.com>',
     dist_version_from   => 'lib/WebService/Simple.pm',
     requires => {
-        'Test::More' => 0,
-    },
+        'Test::More'     => 0,
+        'URI::Escape'    => 0,
+        'LWP::UserAgent' => 0,
+        'XML::Simple'    => 0,
+      },
     add_to_cleanup      => [ 'WebService-Simple-*' ],
 );
 
