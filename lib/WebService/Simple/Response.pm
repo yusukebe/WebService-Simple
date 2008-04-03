@@ -21,7 +21,7 @@ __END__
 
 =head1 NAME
 
-    Webservice::Simple::Response - Override HTTP::Request and add a xml_parse method
+Webservice::Simple::Response - Adds a xml_parse() to HTTP::Response
 
 =head1 VERSION
 
@@ -34,6 +34,9 @@ This document describes Webservice::Simple::Response version 0.0.1
 =item parse_xml(I<%args>)
 
 Parse a xml content with XML::Simple and return the Perl object.
+You can tell XML::Simple parse options as parameters.
+
+  my $ref = $response->parse_xml( { forcearray => [], keyattr => [] } );
 
 =back
 
@@ -44,7 +47,7 @@ Yusuke Wada  C<< <yusuke@kamawada.com> >>
 
 =head1 LICENCE AND COPYRIGHT
 
-Copyright (c) 2008, Yusuke Wada C<< <yusuke@kamawada.com> >>. All rights reserved.
+Copyright (c) 2008 Yusuke Wada, All rights reserved.
 
 This module is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself. See L<perlartistic>.

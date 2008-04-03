@@ -77,7 +77,7 @@ __END__
 
 =head1 NAME
 
-WebService::Simple - Simple interface to Web Service APIs
+WebService::Simple - Simple interface to Web Services APIs
 
 =head1 VERSION
 
@@ -98,7 +98,7 @@ This document describes WebService::Simple version 0.02
 
 =head1 DESCRIPTION
 
-WebService::Simple provides you a simple interface to Web Servcie APIs
+WebService::Simple provides you a simple interface to Web Services APIs
 
 =head1 METHODS
 
@@ -112,7 +112,7 @@ WebService::Simple provides you a simple interface to Web Servcie APIs
     );
 
 Create and return a new WebService::Simple object.
-"new" Method requires an base_url of Web Service API.
+"new" Method requires a base_url of Web Service API.
 
 =item get(I<%args>)
 
@@ -121,13 +121,13 @@ Create and return a new WebService::Simple object.
 
 Get the WebService::Simple::Response object.
 
-If you want to add a path to base URL, use option parameters.
+If you want to add a path to base URL, use an option parameter.
 
     my $lingr = WebService::Simple->new(
-        base_url => 'http://www.lingr.com/',
-        param    => { api_key => "your_api_key", format => 'xml' }
+        base_url => "http://www.lingr.com/",
+        param    => { api_key => "your_api_key", format => "xml" }
     );
-    my $response = $lingr->get( {}, { path => '/api/session/create' } );
+    my $response = $lingr->get( {}, { path => "/api/session/create" } );
 
 =back
 
@@ -137,8 +137,8 @@ Cache the response of Web Service APIs by using Cache object.
 Here's an example.
 
     my $cache = Cache::File->new(
-        cache_root      => '/tmp/mycache',
-        default_expires => '30 min',
+        cache_root      => "/tmp/mycache",
+        default_expires => "30 min",
     );
 
     my $flickr = WebService::Simple->new(
@@ -154,7 +154,7 @@ Yusuke Wada  C<< <yusuke@kamawada.com> >>
 
 =head1 LICENCE AND COPYRIGHT
 
-Copyright (c) 2008, Yusuke Wada C<< <yusuke@kamawada.com> >>. All rights reserved.
+Copyright (c) 2008 Yusuke Wada, All rights reserved.
 
 This module is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself. See L<perlartistic>.

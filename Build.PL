@@ -12,6 +12,7 @@ my $builder = Module::Build->new(
         'URI::Escape'    => 0,
         'LWP::UserAgent' => 0,
         'XML::Simple'    => 0,
+        'HTTP::Response' => 0,
       },
     add_to_cleanup      => [ 'WebService-Simple-*' ],
 );

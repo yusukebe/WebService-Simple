@@ -13,6 +13,7 @@ WriteMakefile(
         'URI::Escape'    => 0,
         'LWP::UserAgent' => 0,
         'XML::Simple'    => 0,
+        'HTTP::Response' => 0,
       },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'WebService-Simple-*' },

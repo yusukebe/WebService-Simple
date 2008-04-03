@@ -1,5 +1,9 @@
 WebService-Simple version 0.0.2
 
+DESCRIPTION
+
+WebService::Simple provides you a simple interface to Web Services APIs.
+
 INSTALLATION
 
 To install this module, run the following commands:
