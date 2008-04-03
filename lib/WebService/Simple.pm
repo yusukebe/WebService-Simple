@@ -22,8 +22,8 @@ sub new {
 }
 
 sub get {
-    my ($self, $request_param) = @_;
-    my $url = $self->_make_url($request_param);
+    my ($self, $request_param, $opt) = @_;
+    my $url = $self->_make_url($request_param, $opt->{path});
     my $response = $self->_fetch_url($url);
     return $response;
 }
@@ -44,9 +44,14 @@ sub _fetch_url{
     }
     return $response;
 }
+
 sub _make_url{
-    my ($self, $request_param) = @_;
+    my ($self, $request_param, $path) = @_;
     my $base_url = $self->{base_url};
+    if($path){
+	$path =~ s!^/!! if $base_url =~ /\/$/;
+	$base_url = $base_url . $path;
+    }
     my $url = $base_url =~ /\?$/ ? $base_url : $base_url . "?";
     my @params;
     push(@params, $self->_hashref_to_str($self->{param}));
@@ -73,7 +78,7 @@ __END__
 
 =head1 NAME
 
-WebService::Simple - Simple interface to any Web Service APIs
+WebService::Simple - Simple interface to Web Service APIs
 
 =head1 VERSION
 
@@ -94,7 +99,7 @@ This document describes WebService::Simple version 0.02
 
 =head1 DESCRIPTION
 
-WebService::Simple provides you a simple interface to any Web Servcie APIs
+WebService::Simple provides you a simple interface to Web Servcie APIs
 
 =head1 METHODS
 
@@ -116,6 +121,14 @@ Create and return a new WebService::Simple object.
       $flickr->get( { method => "flickr.test.echo", name => "value" } );
 
 Get the WebService::Simple::Response object.
+
+If you want to add a path to base URL, use option parameters.
+
+    my $lingr = WebService::Simple->new(
+        base_url => 'http://www.lingr.com/',
+        param    => { api_key => "your_api_key", format => 'xml' }
+    );
+    my $response = $lingr->get( {}, { path => '/api/session/create' } );
 
 =back
 
@@ -139,7 +152,6 @@ Here's an example.
 =head1 AUTHOR
 
 Yusuke Wada  C<< <yusuke@kamawada.com> >>
-
 
 =head1 LICENCE AND COPYRIGHT
 
