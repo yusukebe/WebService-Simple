@@ -14,8 +14,8 @@ sub new {
     my $opt = ref $_[0] eq 'HASH' ? shift: {@_};
     croak "paramater base_url is required" unless $opt->{base_url};
     my $self = bless {
-        ua => LWP::UserAgent->new,
-        %$opt,
+	ua => LWP::UserAgent->new,
+	%$opt,
     }, $class;
     $self;
 }
@@ -28,7 +28,7 @@ sub get {
 }
 
 sub _fetch_url{
-    my ($self,$url) = @_;
+    my ($self, $url) = @_;
     my $response;
     if(exists $self->{cache}){
 	$response = $self->{cache}->thaw($url);
@@ -39,7 +39,7 @@ sub _fetch_url{
     $response = $self->{ua}->get($url);
     croak "can't get the request" unless $response->is_success;
     if(exists $self->{cache}) {
-        $self->{cache}->freeze($url, $response);
+	$self->{cache}->freeze($url, $response);
     }
     return $response;
 }
@@ -48,14 +48,14 @@ sub _make_url{
     my ($self, $request_param, $path) = @_;
     my $base_url = $self->{base_url};
     if($path){
-	$path =~ s!^/!! if $base_url =~ /\/$/;
+	$path =~ s!^/+!! if $base_url =~ m{/$};
 	$base_url = $base_url . $path;
     }
     my $url = $base_url =~ /\?$/ ? $base_url : $base_url . "?";
     my @params;
     push(@params, $self->_hashref_to_str($self->{param}));
     push(@params, $self->_hashref_to_str($request_param));
-    my $str = join("&",@params);
+    my $str = join("&", @params);
     return $url . $str;
 }
 
@@ -152,7 +152,7 @@ Here's an example.
 
 Yusuke Wada  C<< <yusuke@kamawada.com> >>
 
-=head1 LICENCE AND COPYRIGHT
+=head1 COPYRIGHT AND LISENCE
 
 Copyright (c) 2008 Yusuke Wada, All rights reserved.
 

@@ -44,8 +44,7 @@ You can tell XML::Simple parse options as parameters.
 
 Yusuke Wada  C<< <yusuke@kamawada.com> >>
 
-
-=head1 LICENCE AND COPYRIGHT
+=head1 COPYRIGHT AND LISENCE
 
 Copyright (c) 2008 Yusuke Wada, All rights reserved.
 
