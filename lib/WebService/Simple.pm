@@ -156,6 +156,7 @@ Yusuke Wada  C<< <yusuke@kamawada.com> >>
 
 Copyright (c) 2008 Yusuke Wada, All rights reserved.
 
-This module is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself. See L<perlartistic>.
+This module is free software; you can redistribute it
+and/or modify it under the same terms as Perl itself.
+See L<perlartistic>.
 
