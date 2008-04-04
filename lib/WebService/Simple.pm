@@ -7,7 +7,7 @@ use URI::Escape;
 use LWP::UserAgent;
 use WebService::Simple::Response;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 sub new {
     my $class = shift;
@@ -81,7 +81,7 @@ WebService::Simple - Simple interface to Web Services APIs
 
 =head1 VERSION
 
-This document describes WebService::Simple version 0.02
+This document describes WebService::Simple version 0.03
 
 =head1 SYNOPSIS
 

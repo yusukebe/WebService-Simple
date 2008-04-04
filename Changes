@@ -1,5 +1,7 @@
 Revision history for WebService-Simple
 
+0.0.3  Fri Apr 04 15:41:00 2008
+       - Fixed Makefile.PL and Build.PL
 0.0.2  Thu Apr 03 16:13:00 2008
        - Added CHACHING
 0.0.1  Thu Mar 27 10:06:09 2008
