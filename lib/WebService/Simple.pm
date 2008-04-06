@@ -152,7 +152,7 @@ Here's an example.
 
 Yusuke Wada  C<< <yusuke@kamawada.com> >>
 
-=head1 COPYRIGHT AND LISENCE
+=head1 COPYRIGHT AND LICENSE
 
 Copyright (c) 2008 Yusuke Wada, All rights reserved.
 
