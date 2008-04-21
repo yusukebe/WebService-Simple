@@ -15,7 +15,7 @@ sub new
 sub parse_response
 {
     my $self = shift;
-    $self->{libxml}->parse_string( $_[1]->content );
+    $self->{libxml}->parse_string( $_[0]->content );
 }
 
 1;
