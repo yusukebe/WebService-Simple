@@ -1,18 +1,24 @@
+# $Id$
+
 package WebService::Simple::Response;
-
-use warnings;
 use strict;
-use Carp;
-use XML::Simple;
-our $VERSION = '0.01';
+use warnings;
+use base qw(HTTP::Response);
 
-sub HTTP::Response::parse_xml {
-    my ($self, $opt) = @_;
-    my $xs = XML::Simple->new( %$opt );
-    my $results;
-    eval { $results = $xs->XMLin($self->content) };
-    croak("can't parse xml") if ($@);
-    return $results;
+sub new_from_response
+{
+    # XXX hack. This probably should be changed...
+    my $class = shift;
+    my %args  = @_;
+    my $self = bless $args{response}, $class;
+    $self->{__parser} = $args{parser};
+    return $self;
+}
+
+sub parse_response
+{
+    my $self = shift;
+    return $self->{__parser}->parse_response($self);
 }
 
 1;

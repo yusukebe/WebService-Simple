@@ -14,30 +14,30 @@ my $lingr = WebService::Simple->new(
 
 # create session, get session
 my $response;
-$response = $lingr->get( {}, { path => '/api/session/create' } );
-my $session = $response->parse_xml->{session};
+$response = $lingr->get( 'api/session/create', {} );
+my $session = $response->parse_response->{session};
 
 # enter the room, get ticket
 $response = $lingr->get(
-    {
+    'api/room/enter',
+		    {
         session  => $session,
         id       => $room_id,
         nickname => $nickname,
     },
-    { path => '/api/room/enter' }
 );
-my $ticket = $response->parse_xml->{ticket};
+my $ticket = $response->parse_response->{ticket};
 
 # say 'Hello, World'
 $response = $lingr->get(
-    {
+    'api/room/say',
+		    {
         session => $session,
         ticket  => $ticket,
         message => $message,
     },
-    { path => '/api/room/say' }
 );
-my $status = $response->parse_xml->{status};
+my $status = $response->parse_response->{status};
 
 # destroy session
-$lingr->get( { session => $session, }, { path => '/api/session/destroy' } );
+$lingr->get( 'api/session/destroy' , { session => $session, } );
