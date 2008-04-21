@@ -14,11 +14,6 @@ our $VERSION = '0.00001';
 
 __PACKAGE__->config(
     base_url => '',
-    cache => {
-        module => "Cache::FileCache",
-        args   => {
-        }
-    },
     response_parser => {
         module => "XML::Simple"
     },
