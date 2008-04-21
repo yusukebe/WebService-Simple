@@ -4,6 +4,8 @@ use warnings;
 use base qw(WebService::Simple::Parser);
 use XML::LibXML;
 
+__PACKAGE__->mk_accessors($_) for qw(libxml);
+
 sub new
 {
     my $class = shift;
@@ -15,7 +17,7 @@ sub new
 sub parse_response
 {
     my $self = shift;
-    $self->{libxml}->parse_string( $_[0]->content );
+    $self->libxml->parse_string( $_[0]->content );
 }
 
 1;

@@ -4,6 +4,7 @@ use inc::Module::Install;
 name('WebService-Simple');
 all_from('lib/WebService/Simple.pm');
 
+requires( 'Class::Accessor::Fast' );
 requires( 'Class::Data::ConfigHash' );
 requires( 'Class::Inspector' );
 requires( 'Data::Dumper' );

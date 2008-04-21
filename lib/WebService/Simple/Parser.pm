@@ -1,6 +1,6 @@
 package WebService::Simple::Parser;
 use strict;
-
-sub new { bless {}, shift }
+use warnings;
+use base qw(Class::Accessor::Fast);
 
 1;
