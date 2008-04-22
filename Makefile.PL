@@ -14,6 +14,8 @@ requires( 'LWP::UserAgent' );
 requires( 'UNIVERSAL::require' );
 requires( 'XML::Simple' );
 
+recommends( 'XML::LibXML' );
+
 build_requires( 'Test::More' );
 build_requires( 'Test::Pod' );
 build_requires( 'Test::Pod::Coverage' );
