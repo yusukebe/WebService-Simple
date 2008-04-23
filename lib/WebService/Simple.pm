@@ -155,7 +155,6 @@ sub get
 
 }
 
-# まだできてない。
 sub post
 {
     my ($self, $url, @params) = @_;
@@ -212,7 +211,6 @@ WebService::Simple is a simple class to interact with web services.
 It's basically an LWP::UserAgent that remembers recurring api URLs and
 parameters, plus sugar to parse the results.
 
-
 =head1 SUBCLASSING
 
 For better encapsulation, you can create subclass of WebService::Simple to
@@ -260,6 +258,20 @@ that by providing a parser object to the constructor:
 
 This allows great flexibility in handling different webservices
 
+=head1 CACHING
+
+  my $cache   = Cache::File->new(
+      cache_root      => '/tmp/mycache',
+      default_expires => '30 min',
+  );
+  
+  my $flickr = WebService::Simple->new(
+      base_url => "http://api.flickr.com/services/rest/",
+      cache    => $cache,
+      param    => { api_key => "your_api_key, }
+  );
+
+
 =head1 AUTHOR
 
 Yusuke Wada  C<< <yusuke@kamawada.com> >>
@@ -269,8 +281,6 @@ Daisuke Maki C<< <daisuke@endeworks.jp> >>
 Matsuno Tokuhiro
 
 =head1 COPYRIGHT AND LICENSE
-
-Copyright (c) 2008 Yusuke Wada, All rights reserved.
 
 This module is free software; you can redistribute it
 and/or modify it under the same terms as Perl itself.
