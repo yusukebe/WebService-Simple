@@ -4,7 +4,7 @@ use WebService::Simple;
 
 my $api_key = $ARGV[0] || "your_api_key";
 my $room_id = "hO4SmQWTdJ4";    # http://www.lingr.com/room/hO4SmQWTdJ4
-my $nickname = "lingr.pl";
+my $nickname = "WebService::Simple";
 my $message  = "Hello, World.";
 
 my $lingr = WebService::Simple->new(
