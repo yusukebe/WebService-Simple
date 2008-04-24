@@ -2,10 +2,10 @@ use strict;
 use warnings;
 use WebService::Simple;
 
-my $api_key  = "your_api_key";
-my $room_id  = "hO4SmQWTdJ4"; # http://www.lingr.com/room/hO4SmQWTdJ4
+my $api_key = $ARGV[0] || "your_api_key";
+my $room_id = "hO4SmQWTdJ4";    # http://www.lingr.com/room/hO4SmQWTdJ4
 my $nickname = "lingr.pl";
-my $message  = $ARGV[0] || "Hello, World.";
+my $message  = "Hello, World.";
 
 my $lingr = WebService::Simple->new(
     base_url => 'http://www.lingr.com/',
@@ -20,7 +20,7 @@ my $session = $response->parse_response->{session};
 # enter the room, get ticket
 $response = $lingr->get(
     'api/room/enter',
-		    {
+    {
         session  => $session,
         id       => $room_id,
         nickname => $nickname,
@@ -31,7 +31,7 @@ my $ticket = $response->parse_response->{ticket};
 # say 'Hello, World'
 $response = $lingr->get(
     'api/room/say',
-		    {
+    {
         session => $session,
         ticket  => $ticket,
         message => $message,
@@ -40,4 +40,4 @@ $response = $lingr->get(
 my $status = $response->parse_response->{status};
 
 # destroy session
-$lingr->get( 'api/session/destroy' , { session => $session, } );
+$lingr->get( 'api/session/destroy', { session => $session, } );

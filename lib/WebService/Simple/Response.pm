@@ -21,6 +21,12 @@ sub parse_response
     return $self->{__parser}->parse_response($self);
 }
 
+sub parse_xml
+{
+    my $self = shift;
+    $self->parse_response;
+}
+
 1;
 
 __END__

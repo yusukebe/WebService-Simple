@@ -10,7 +10,7 @@ use Digest::MD5 ();
 use WebService::Simple::Response;
 use UNIVERSAL::require;
 
-our $VERSION = '0.00001';
+our $VERSION = '0.03';
 
 __PACKAGE__->config(
     base_url => '',
@@ -259,6 +259,8 @@ that by providing a parser object to the constructor:
 This allows great flexibility in handling different webservices
 
 =head1 CACHING
+
+Cache the response of Web Service by using Cache object.
 
   my $cache   = Cache::File->new(
       cache_root      => '/tmp/mycache',

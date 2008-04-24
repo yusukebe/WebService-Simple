@@ -2,7 +2,10 @@ WebService-Simple version 0.03
 
 DESCRIPTION
 
-WebService::Simple provides you a simple interface to Web Services APIs.
+WebService::Simple is a simple class to interact with web services.
+
+It's basically an LWP::UserAgent that remembers recurring api URLs and
+parameters, plus sugar to parse the results.
 
 INSTALLATION
 
@@ -13,16 +16,7 @@ To install this module, run the following commands:
 	make test
 	make install
 
-Alternatively, to install with Module::Build, you can use the following commands:
-
-	perl Build.PL
-	./Build
-	./Build test
-	./Build install
-
 LICENSE AND COPYRIGHT
-
-Copyright (c) 2008 Yusuke Wada, All rights reserved.
 
 This module is free software; you can redistribute it
 and/or modify it under the same terms as Perl itself.
