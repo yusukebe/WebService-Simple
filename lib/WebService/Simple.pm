@@ -10,7 +10,7 @@ use Digest::MD5 ();
 use WebService::Simple::Response;
 use UNIVERSAL::require;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 __PACKAGE__->config(
     base_url => '',
