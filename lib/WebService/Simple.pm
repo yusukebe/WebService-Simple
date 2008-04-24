@@ -7,6 +7,7 @@ use base qw(LWP::UserAgent Class::Data::ConfigHash);
 use Class::Inspector;
 use Data::Dumper ();
 use Digest::MD5 ();
+use URI::Escape;
 use WebService::Simple::Response;
 use UNIVERSAL::require;
 
@@ -130,15 +131,16 @@ sub get
     my $uri = URI->new($self->base_url);
     if($url){
 	$url =~ s!^/!! if $url =~ m!^/!;
+	$uri->path( $uri->path . $url);
     }
-    $uri->path( $uri->path . $url) if $url;
 
     # The url must be initialized with default parameters.
+
+    map { utf8::encode($extra{$_}) if utf8::is_utf8($extra{$_}) } keys %extra;
 
     $uri->query_form( %{$self->basic_params}, %extra );
 
     my $response;
-
     $response = $self->__cache_get([$uri, @headers]);
     if ($response) {
         return $response;
@@ -163,7 +165,10 @@ sub post
     my ($self, $url, @params) = @_;
 
     my $uri = URI->new($self->base_url);
-    $uri->path( $uri->path . $url) if $url;
+    if($url){
+	$url =~ s!^/!! if $url =~ m!^/!;
+	$uri->path( $uri->path . $url);
+    }
 
     # default parameters must come *before* @params, so unshift instead
     # of push
