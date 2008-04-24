@@ -26,7 +26,7 @@ __END__
 
 =head1 NAME
 
-WebService::Simple::Parser::XML - Parse XML content using XML::LibXML
+WebService::Simple::Parser::XML::LibXML - Parse XML content using XML::LibXML
 
 =head1 SYNOPSIS
 

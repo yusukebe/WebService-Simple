@@ -31,7 +31,7 @@ __END__
 
 =head1 NAME
 
-Webservice::Simple::Response - Adds a parse_response() to HTTP::Response
+WebService::Simple::Response - Adds a parse_response() to HTTP::Response
 
 =head1 SYNOPSIS
 
