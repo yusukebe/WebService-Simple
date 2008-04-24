@@ -21,11 +21,7 @@ sub parse_response
     return $self->{__parser}->parse_response($self);
 }
 
-sub parse_xml
-{
-    my $self = shift;
-    $self->parse_response;
-}
+*parse_xml = \&parse_response;
 
 1;
 
@@ -34,6 +30,23 @@ __END__
 =head1 NAME
 
 Webservice::Simple::Response - Adds a parse_response() to HTTP::Response
+
+=head1 SYNOPSIS
+
+  # Internal use only
+
+=head1 METHODS
+
+=head2 new_from_response
+
+=head2 parse_response
+
+Parses the response content using the specified parser
+
+=head2 parse_xml
+
+This is a n alias for parse_response() for backwards compatibility.
+Use parse_response instead.
 
 =head1 AUTHOR
 
