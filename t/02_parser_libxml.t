@@ -25,7 +25,7 @@ BEGIN
 
     SKIP: {
         if (! $flickr_api_key ) {
-            skip( "Please set FLICKR_API_KEY to enable this test", 1 );
+            skip( "Please set FLICKR_API_KEY to enable this test", 5 );
         }
     
         my $response = $service->get( { method => "flickr.test.echo", name => "value" } );
