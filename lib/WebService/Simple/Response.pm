@@ -5,6 +5,8 @@ use strict;
 use warnings;
 use base qw(HTTP::Response);
 
+our $version = "0.02";
+
 sub new_from_response
 {
     # XXX hack. This probably should be changed...
