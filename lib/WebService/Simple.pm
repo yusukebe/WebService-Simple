@@ -128,8 +128,9 @@ sub get
     @headers = @_;
 
     my $uri = URI->new($self->base_url);
-
-    $url =~ s!^/!! if $url =~ m!^/!;
+    if($url){
+	$url =~ s!^/!! if $url =~ m!^/!;
+    }
     $uri->path( $uri->path . $url) if $url;
 
     # The url must be initialized with default parameters.
