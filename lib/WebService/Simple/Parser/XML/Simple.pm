@@ -19,4 +19,8 @@ __END__
 
 WebService::Simple::Parser::XML::Simple - XML::Simple Adaptor For WebService::Simple::Parser
 
+=head1 METHODS
+
+=head2 parse_response
+
 =cut

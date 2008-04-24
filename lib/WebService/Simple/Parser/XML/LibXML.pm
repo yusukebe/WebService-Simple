@@ -21,3 +21,26 @@ sub parse_response
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+WebService::Simple::Parser::XML - Parse XML content using XML::LibXML
+
+=head1 SYNOPSIS
+
+  my $service = WebService::Simple->new(
+    base_url => ...,
+    response_parser => 'XML::LibXML',
+  );
+  my $res = $service->get(...);
+  my $dom = $res->parse_response();
+
+=head1 METHODS
+
+=head2 new
+
+=head2 parse_response
+
+=cut

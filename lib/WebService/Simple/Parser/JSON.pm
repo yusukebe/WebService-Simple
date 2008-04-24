@@ -25,3 +25,25 @@ sub parse_response
 
 1;
 
+__END__
+
+=head1 NAME
+
+WebService::Simple::Parser::JSON - Parse JSON content
+
+=head1 SYNOPSIS
+
+  my $service = WebService::Simple->new(
+    base_url => ...,
+    response_parser => 'JSON',
+  );
+  my $res = $service->get(...);
+  my $json = $res->parse_response();
+
+=head1 METHODS
+
+=head2 new
+
+=head2 parse_response
+
+=cut
