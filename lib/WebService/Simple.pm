@@ -211,6 +211,48 @@ WebService::Simple is a simple class to interact with web services.
 It's basically an LWP::UserAgent that remembers recurring api URLs and
 parameters, plus sugar to parse the results.
 
+=head1 METHODS
+
+=over 4
+
+=item new(I<%args>)
+
+    my $flickr = WebService::Simple->new(
+        base_url => "http://api.flickr.com/services/rest/",
+        param    => { api_key => "your_api_key", }
+    );
+
+Create and return a new WebService::Simple object.
+"new" Method requires a base_url of Web Service API.
+
+=item get(I<[$extra_path,] $args>)
+
+    my $response =
+      $flickr->get( { method => "flickr.test.echo", name => "value" } );
+
+Send GET request, and you can get  the WebService::Simple::Response object.
+If you want to add a path to base URL, use an option parameter.
+
+    my $lingr = WebService::Simple->new(
+        base_url => "http://www.lingr.com/",
+        param    => { api_key => "your_api_key", format => "xml" }
+    );
+    my $response = $lingr->get( 'api/session/create', {} );
+
+=item post(I<[$extra_path,] $args>)
+
+Send POST request.
+
+=item base_url
+
+=item basic_params
+
+=item cache
+
+=item response_parser
+
+=back
+
 =head1 SUBCLASSING
 
 For better encapsulation, you can create subclass of WebService::Simple to
@@ -260,7 +302,7 @@ This allows great flexibility in handling different webservices
 
 =head1 CACHING
 
-Cache the response of Web Service by using Cache object.
+You can cache the response of Web Service by using Cache object.
 
   my $cache   = Cache::File->new(
       cache_root      => '/tmp/mycache',
