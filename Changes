@@ -1,5 +1,6 @@
 Revision history for WebService-Simple
-
+0.04  Fri Apr 24 15:42:00 2008
+       - LWP::UserAgent base
 0.03  Fri Apr 04 15:41:00 2008
        - Fixed Makefile.PL and Build.PL
 0.02  Thu Apr 03 16:13:00 2008
