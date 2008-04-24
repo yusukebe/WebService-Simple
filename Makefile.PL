@@ -18,6 +18,7 @@ recommends( 'XML::LibXML' );
 
 build_requires( 'Test::More' );
 build_requires( 'Test::Pod' );
+build_requires( 'Pod::Coverage' );
 
 auto_include;
 WriteAll;
