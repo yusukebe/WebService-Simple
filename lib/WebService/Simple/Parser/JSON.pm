@@ -20,7 +20,11 @@ sub new
 sub parse_response
 {
     my $self = shift;
-    $self->{json}->decode( $_[0]->content );
+    my $content =$_[0]->content;
+    # JSONP to pure JSON
+    $content =~ s/[a-zA-Z0-9_]+\((.+)\)/$1/;
+    $content =~ s/;$//;
+    $self->{json}->decode( $content );
 }
 
 1;

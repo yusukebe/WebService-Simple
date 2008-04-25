@@ -11,6 +11,5 @@ my $flickr = WebService::Simple->new(
 
 my $response =
   $flickr->get( { method => "flickr.photos.search", text => "cat" } );
-${ $response->content_ref } =~ s/jsonFlickrApi\((.+)\)/$1/;
 print Dumper $response->parse_response;
 

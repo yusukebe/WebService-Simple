@@ -2,6 +2,7 @@ Changes
 example/flickr_echo.pl
 example/flickr_json.pl
 example/flickr_search.pl
+example/hatenastar_jsonp.pl
 example/lingr.pl
 inc/Module/Install.pm
 inc/Module/Install/Base.pm
