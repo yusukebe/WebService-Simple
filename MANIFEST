@@ -1,3 +1,4 @@
+.shipit
 Changes
 example/flickr_echo.pl
 example/flickr_json.pl
@@ -17,7 +18,6 @@ inc/Pod/Coverage.pm
 inc/Test/More.pm
 inc/Test/Pod.pm
 lib/WebService/Simple.pm
-lib/WebService/Simple/Flickr.pm
 lib/WebService/Simple/Parser.pm
 lib/WebService/Simple/Parser/JSON.pm
 lib/WebService/Simple/Parser/XML/LibXML.pm
