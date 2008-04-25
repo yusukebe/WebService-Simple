@@ -21,6 +21,7 @@ lib/WebService/Simple.pm
 lib/WebService/Simple/Parser.pm
 lib/WebService/Simple/Parser/JSON.pm
 lib/WebService/Simple/Parser/XML/LibXML.pm
+lib/WebService/Simple/Parser/XML/Lite.pm
 lib/WebService/Simple/Parser/XML/Simple.pm
 lib/WebService/Simple/Response.pm
 Makefile.PL
@@ -32,6 +33,7 @@ t/01_basic.t
 t/02_parser.t
 t/02_parser_json.t
 t/02_parser_libxml.t
+t/02_parser_lite.t
 t/02_parser_xml_simple.t
 t/pod-coverage.t
 t/pod.t
