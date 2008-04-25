@@ -10,7 +10,7 @@ sub new
     my $class = shift;
     my %args  = @_;
 
-	my $lite = delete $args{lite} || XML::Parser::Lite::Tree::instance();
+    my $lite = delete $args{lite} || XML::Parser::Lite::Tree::instance();
     my $self  = $class->SUPER::new(%args);
     $self->{lite} = $lite;
     return $self;
@@ -20,7 +20,7 @@ sub parse_response
 {
     my $self = shift;
     XML::Parser::Lite::Tree::XPath->new(
-		$self->{lite}->parse( $_[0]->content ) );
+        $self->{lite}->parse( $_[0]->content ) );
 }
 
 1;
@@ -46,5 +46,9 @@ WebService::Simple::Parser::XML::Lite - Parse XML content using
 =head2 new
 
 =head2 parse_response
+
+=head1 AUTHOR
+
+mattn C<< <mattn.jp@gmail.com> >>
 
 =cut

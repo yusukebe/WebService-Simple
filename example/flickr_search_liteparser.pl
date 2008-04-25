@@ -13,6 +13,6 @@ my $response =
   $flickr->get( { method => "flickr.photos.search", text => $ARGV[1] || 'Cat' } );
 my $format = 'http://static.flickr.com/${server}/${id}_${secret}_m.jpg';
 for my $photo ($response->parse_response->select_nodes('/rsp/photos/photo')) {
-	my $image = $format;
-	print $image =~ s/\${(\w+)}/$photo->{attributes}->{$1}/ge && "$image\n";
+    my $image = $format;
+    print $image =~ s/\${(\w+)}/$photo->{attributes}->{$1}/ge && "$image\n";
 }
