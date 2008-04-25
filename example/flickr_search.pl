@@ -2,8 +2,6 @@ use strict;
 use warnings;
 use WebService::Simple;
 use Data::Dumper;
-use utf8;
-binmode STDOUT, ":utf8";
 
 my $api_key = $ARGV[0] || "your_api_key";
 
