@@ -5,6 +5,8 @@ example/flickr_json.pl
 example/flickr_search.pl
 example/hatenastar_jsonp.pl
 example/lingr.pl
+example/flickr_search_liteparser.pl
+example/google_search.pl
 inc/Module/Install.pm
 inc/Module/Install/Base.pm
 inc/Module/Install/Can.pm
