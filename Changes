@@ -1,4 +1,6 @@
 Revision history for WebService-Simple
+0.11  Fri Apr 27 22:022:00 200
+       - Fixed test
 0.10  Fri Apr 27 16:06:00 200
        - Added request_url method
 0.09  Fri Apr 25 11:39:00 2008

@@ -11,7 +11,7 @@ use URI::Escape;
 use WebService::Simple::Response;
 use UNIVERSAL::require;
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 __PACKAGE__->config(
     base_url => '',
