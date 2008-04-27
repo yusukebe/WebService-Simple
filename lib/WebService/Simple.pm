@@ -113,11 +113,12 @@ sub __cache_key
     return Digest::MD5::md5_hex( Data::Dumper::Dumper( $_[0] ) );
 }
 
-sub get
-{
+sub request_url {
     my $self = shift;
-    my ($url, %extra, @headers);
+    my ($url, %extra);
+
     if (ref $_[0] eq 'HASH') {
+	$url = "";
         %extra = %{shift @_};
     } else {
         $url = shift @_;
@@ -126,19 +127,25 @@ sub get
         }
     }
 
-    @headers = @_;
-
     my $uri = URI->new($self->base_url);
+
     if($url){
 	$url =~ s!^/!! if $url =~ m!^/!;
 	$uri->path( $uri->path . $url);
     }
 
-    # The url must be initialized with default parameters.
-
     map { utf8::encode($extra{$_}) if utf8::is_utf8($extra{$_}) } keys %extra;
-
     $uri->query_form( %{$self->basic_params}, %extra );
+
+    return $uri;
+}
+
+sub get
+{
+    my ($self, $url, %extra) = @_;
+    my $uri = $self->request_url($url,%extra);
+
+    my @headers = @_;
 
     my $response;
     $response = $self->__cache_get([$uri, @headers]);
@@ -157,18 +164,13 @@ sub get
     );
     $self->__cache_set([$uri, @headers], $response);
     return $response;
-
 }
 
 sub post
 {
     my ($self, $url, @params) = @_;
 
-    my $uri = URI->new($self->base_url);
-    if($url){
-	$url =~ s!^/!! if $url =~ m!^/!;
-	$uri->path( $uri->path . $url);
-    }
+    my $uri = $self->request_url($url);
 
     # default parameters must come *before* @params, so unshift instead
     # of push
@@ -250,6 +252,10 @@ If you want to add a path to base URL, use an option parameter.
 =item post(I<[$extra_path,] $args>)
 
 Send POST request.
+
+=item request_url(I<[%extra_path,] $args>)
+
+Return reequest URL.
 
 =item base_url
 
