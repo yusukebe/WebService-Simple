@@ -130,7 +130,7 @@ sub request_url {
     my $uri = URI->new($self->base_url);
 
     if($url){
-	$url =~ s!^/!! if $url =~ m!^/!;
+	$url =~ s!^/!!;
 	$uri->path( $uri->path . $url);
     }
 
