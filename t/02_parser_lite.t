@@ -4,7 +4,10 @@ use Test::More;
 my $flickr_api_key = $ENV{FLICKR_API_KEY};
 BEGIN
 {
-    eval { require XML::Parser::Lite::Tree };
+    eval {
+	 require XML::Parser::Lite::Tree;
+	 require XML::Parser::Lite::Tree::XPath;
+	 };
     if ($@) {
         plan(skip_all => "XML::Parser::Lite::Tree not installed");
     } else {
