@@ -114,24 +114,12 @@ sub __cache_key
 }
 
 sub request_url {
-    my $self = shift;
-    my ($url, %extra);
-
-    if (ref $_[0] eq 'HASH') {
-	$url = "";
-        %extra = %{shift @_};
-    } else {
-        $url = shift @_;
-        if (ref $_[0] eq 'HASH') {
-            %extra = %{ shift @_ }
-        }
-    }
-
+    my ($self, $url, %extra) = @_;
     my $uri = URI->new($self->base_url);
 
     if($url){
-	$url =~ s!^/!!;
-	$uri->path( $uri->path . $url);
+        $url =~ s!^/!!;
+        $uri->path( $uri->path . $url);
     }
 
     map { utf8::encode($extra{$_}) if utf8::is_utf8($extra{$_}) } keys %extra;
@@ -142,8 +130,20 @@ sub request_url {
 
 sub get
 {
-    my ($self, $url, %extra) = @_;
-    my $uri = $self->request_url($url,%extra);
+    my $self = shift;
+    my ($url, %extra);
+
+    if (ref $_[0] eq 'HASH') {
+        $url = "";
+        %extra = %{shift @_};
+    } else {
+        $url = shift @_;
+        if (ref $_[0] eq 'HASH') {
+            %extra = %{ shift @_ }
+        }
+    }
+
+    my $uri = $self->request_url($url, %extra);
 
     my @headers = @_;
 
