@@ -155,7 +155,7 @@ sub get
 
     $response = $self->SUPER::get($uri, @headers);
     if (! $response->is_success) {
-        Carp::croak("request to $url failed");
+        Carp::croak("request to $uri failed");
     }
 
     $response = WebService::Simple::Response->new_from_response(
