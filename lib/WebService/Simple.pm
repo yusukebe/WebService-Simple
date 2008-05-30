@@ -28,6 +28,8 @@ sub new
         $class->config->{base_url} ||
         Carp::croak("base_url is required");
     my $basic_params = delete $args{params} || delete $args{param} || {};
+    my $debug  = delete $args{debug} || 0;
+
     my $response_parser = delete $args{response_parser} ||
         $class->config->{response_parser};
     if (! $response_parser || ! eval { $response_parser->isa('WebService::Simple::Parser') }) {
@@ -66,6 +68,7 @@ sub new
     $self->{basic_params} = $basic_params;
     $self->{response_parser} = $response_parser;
     $self->{cache} = $cache;
+    $self->{debug} = $debug;
     return $self;
 }
 
@@ -114,22 +117,6 @@ sub __cache_key
 }
 
 sub request_url {
-    my ($self, $url, %extra) = @_;
-    my $uri = URI->new($self->base_url);
-
-    if($url){
-        $url =~ s!^/!!;
-        $uri->path( $uri->path . $url);
-    }
-
-    map { utf8::encode($extra{$_}) if utf8::is_utf8($extra{$_}) } keys %extra;
-    $uri->query_form( %{$self->basic_params}, %extra );
-
-    return $uri;
-}
-
-sub get
-{
     my $self = shift;
     my ($url, %extra);
 
@@ -143,7 +130,23 @@ sub get
         }
     }
 
-    my $uri = $self->request_url($url, %extra);
+    my $uri = URI->new($self->base_url);
+    if($url){
+        $url =~ s!^/!!;
+        $uri->path( $uri->path . $url);
+    }
+
+    map { utf8::encode($extra{$_}) if utf8::is_utf8($extra{$_}) } keys %extra;
+    $uri->query_form( %{$self->basic_params}, %extra );
+
+    return $uri;
+}
+
+sub get {
+    my $self = shift;
+
+    my $uri = $self->request_url(@_);
+    print  "Request URL is $uri\n" if $self->{debug};
 
     my @headers = @_;
 
@@ -229,11 +232,13 @@ parameters, plus sugar to parse the results.
 
     my $flickr = WebService::Simple->new(
         base_url => "http://api.flickr.com/services/rest/",
-        param    => { api_key => "your_api_key", }
+        param    => { api_key => "your_api_key", },
+        # debug    => 1
     );
 
 Create and return a new WebService::Simple object.
 "new" Method requires a base_url of Web Service API.
+If debug is set, dump a request URL in get or post method.
 
 =item get(I<[$extra_path,] $args>)
 
@@ -253,7 +258,7 @@ If you want to add a path to base URL, use an option parameter.
 
 Send POST request.
 
-=item request_url(I<[%extra_path,] $args>)
+=item request_url(I<$extra_path, $args>)
 
 Return reequest URL.
 
