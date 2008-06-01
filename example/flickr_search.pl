@@ -12,4 +12,4 @@ my $flickr = WebService::Simple->new(
 
 my $response =
   $flickr->get( { method => "flickr.photos.search", text => "cat" } );
-print Dumper $response->parse_response;
+print Dumper $response->parse_response( KeyAttr => [] );

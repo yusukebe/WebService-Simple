@@ -6,9 +6,11 @@ use warnings;
 use base qw(WebService::Simple::Parser);
 use XML::Simple;
 
-sub parse_response
-{
-    return XMLin($_[1]->content);
+sub parse_response {
+    my $self     = shift;
+    my $response = shift;
+    my %opt      = @_;
+    return XMLin( $response->content, %opt );
 }
 
 1;
