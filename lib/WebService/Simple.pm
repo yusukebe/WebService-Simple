@@ -6,7 +6,7 @@ use warnings;
 use base qw(LWP::UserAgent Class::Data::ConfigHash);
 use Class::Inspector;
 use Data::Dumper ();
-use Digest::MD5 ();
+use Digest::MD5  ();
 use URI::Escape;
 use WebService::Simple::Response;
 use UNIVERSAL::require;
@@ -14,102 +14,100 @@ use UNIVERSAL::require;
 our $VERSION = '0.12';
 
 __PACKAGE__->config(
-    base_url => '',
-    response_parser => {
-        module => "XML::Simple"
-    },
+    base_url        => '',
+    response_parser => { module => "XML::Simple" },
 );
 
-sub new
-{
-    my $class = shift;
-    my %args  = @_;
-    my $base_url     = delete $args{base_url} ||
-        $class->config->{base_url} ||
-        Carp::croak("base_url is required");
+sub new {
+    my $class    = shift;
+    my %args     = @_;
+    my $base_url = delete $args{base_url}
+      || $class->config->{base_url}
+      || Carp::croak("base_url is required");
     my $basic_params = delete $args{params} || delete $args{param} || {};
-    my $debug  = delete $args{debug} || 0;
+    my $debug = delete $args{debug} || 0;
 
-    my $response_parser = delete $args{response_parser} ||
-        $class->config->{response_parser};
-    if (! $response_parser || ! eval { $response_parser->isa('WebService::Simple::Parser') }) {
+    my $response_parser = delete $args{response_parser}
+      || $class->config->{response_parser};
+    if (   !$response_parser
+        || !eval { $response_parser->isa('WebService::Simple::Parser') } )
+    {
         my $config = $response_parser || $class->config->{response_parser};
-        if (! ref $config) {
+        if ( !ref $config ) {
             $config = { module => $config };
         }
         my $module = $config->{module};
-        if ($module !~ s/^\+//) {
+        if ( $module !~ s/^\+// ) {
             $module = __PACKAGE__ . "::Parser::$module";
         }
-        if (! Class::Inspector->loaded($module)) {
+        if ( !Class::Inspector->loaded($module) ) {
             $module->require or die;
         }
         $response_parser = $module->new( %{ $config->{args} || {} } );
-    };
+    }
 
     my $cache = delete $args{cache};
-    if (! $cache || ref $cache eq 'HASH') {
+    if ( !$cache || ref $cache eq 'HASH' ) {
         my $config = ref $cache eq 'HASH' ? $cache : $class->config->{cache};
         if ($config) {
-            if (! ref $config) {
+            if ( !ref $config ) {
                 $config = { module => $config };
             }
 
             my $module = $config->{module};
-            if (! Class::Inspector->loaded($module)) {
+            if ( !Class::Inspector->loaded($module) ) {
                 $module->require or die;
             }
-            $cache = $module->new( $config->{hashref_args} ? $config->{args} : %{ $config->{args} } );
+            $cache =
+              $module->new( $config->{hashref_args}
+                ? $config->{args}
+                : %{ $config->{args} } );
         }
     }
 
     my $self = $class->SUPER::new(%args);
-    $self->{base_url} = URI->new($base_url);
-    $self->{basic_params} = $basic_params;
+    $self->{base_url}        = URI->new($base_url);
+    $self->{basic_params}    = $basic_params;
     $self->{response_parser} = $response_parser;
-    $self->{cache} = $cache;
-    $self->{debug} = $debug;
+    $self->{cache}           = $cache;
+    $self->{debug}           = $debug;
     return $self;
 }
 
-sub base_url { $_[0]->{base_url} }
-sub basic_params { $_[0]->{basic_params} }
+sub base_url        { $_[0]->{base_url} }
+sub basic_params    { $_[0]->{basic_params} }
 sub response_parser { $_[0]->{response_parser} }
-sub cache { $_[0]->{cache} }
+sub cache           { $_[0]->{cache} }
 
-sub __cache_get
-{
+sub __cache_get {
     my $self  = shift;
     my $cache = $self->cache;
     return unless $cache;
 
-    my $key   = $self->__cache_key( shift );
+    my $key = $self->__cache_key(shift);
     return $cache->get( $key, @_ );
 }
 
-sub __cache_set
-{
+sub __cache_set {
     my $self  = shift;
     my $cache = $self->cache;
     return unless $cache;
 
-    my $key   = $self->__cache_key( shift );
+    my $key = $self->__cache_key(shift);
     return $cache->set( $key, @_ );
 }
 
-sub __cache_remove
-{
+sub __cache_remove {
     my $self  = shift;
     my $cache = $self->cache;
     return unless $cache;
 
-    my $key   = $self->__cache_key( shift );
+    my $key = $self->__cache_key(shift);
     return $cache->remove( $key, @_ );
 }
 
-sub __cache_key
-{
-    my $self  = shift;
+sub __cache_key {
+    my $self = shift;
     local $Data::Dumper::Indent   = 1;
     local $Data::Dumper::Terse    = 1;
     local $Data::Dumper::Sortkeys = 1;
@@ -120,20 +118,20 @@ sub request_url {
     my $self = shift;
     my %args = @_;
 
-    my $uri = URI->new($args{url});
-    if(my $extra_path = $args{extra_path}){
+    my $uri = URI->new( $args{url} );
+    if ( my $extra_path = $args{extra_path} ) {
         $extra_path =~ s!^/!!;
-        $uri->path( $uri->path . $extra_path);
+        $uri->path( $uri->path . $extra_path );
     }
 
     my $params = $args{params};
     if ($params) {
-        foreach my $key (keys %$params) {
-            if (utf8::is_utf8($params->{$key})) {
+        foreach my $key ( keys %$params ) {
+            if ( utf8::is_utf8( $params->{$key} ) ) {
                 $params->{$key} = utf8::encode( $params->{$key} );
             }
         }
-        $uri->query_form( %$params );
+        $uri->query_form(%$params);
     }
 
     return $uri;
@@ -141,35 +139,36 @@ sub request_url {
 
 sub get {
     my $self = shift;
-    my ($url, %extra);
+    my ( $url, %extra );
 
-    if (ref $_[0] eq 'HASH') {
-        $url = "";
-        %extra = %{shift @_};
-    } else {
+    if ( ref $_[0] eq 'HASH' ) {
+        $url   = "";
+        %extra = %{ shift @_ };
+    }
+    else {
         $url = shift @_;
-        if (ref $_[0] eq 'HASH') {
-            %extra = %{ shift @_ }
+        if ( ref $_[0] eq 'HASH' ) {
+            %extra = %{ shift @_ };
         }
     }
 
     my $uri = $self->request_url(
         url        => $self->base_url,
         extra_path => $url,
-        params     => { %{$self->basic_params}, %extra }
+        params     => { %{ $self->basic_params }, %extra }
     );
-    print  "Request URL is $uri\n" if $self->{debug};
+    print "Request URL is $uri\n" if $self->{debug};
 
     my @headers = @_;
 
     my $response;
-    $response = $self->__cache_get([$uri, @headers]);
+    $response = $self->__cache_get( [ $uri, @headers ] );
     if ($response) {
         return $response;
     }
 
-    $response = $self->SUPER::get($uri, @headers);
-    if (! $response->is_success) {
+    $response = $self->SUPER::get( $uri, @headers );
+    if ( !$response->is_success ) {
         Carp::croak("request to $uri failed");
     }
 
@@ -177,27 +176,26 @@ sub get {
         response => $response,
         parser   => $self->response_parser
     );
-    $self->__cache_set([$uri, @headers], $response);
+    $self->__cache_set( [ $uri, @headers ], $response );
     return $response;
 }
 
-sub post
-{
-    my ($self, $url, @params) = @_;
+sub post {
+    my ( $self, $url, @params ) = @_;
 
     # XXX - do not include params
     my $uri = $self->request_url(
-        url => $self->base_url,
+        url        => $self->base_url,
         extra_path => $url
     );
 
     # default parameters must come *before* @params, so unshift instead
     # of push
     unshift @params, %{ $self->basic_params };
-    my $response = $self->SUPER::post($uri, @params );
+    my $response = $self->SUPER::post( $uri, @params );
 
-    if (! $response->is_success) {
-        Carp::croak("request to $url failed: " . $response->status_line);
+    if ( !$response->is_success ) {
+        Carp::croak( "request to $url failed: " . $response->status_line );
     }
     $response = WebService::Simple::Response->new_from_response(
         response => $response,

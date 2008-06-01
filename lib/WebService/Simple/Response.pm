@@ -19,8 +19,7 @@ sub new_from_response {
 
 sub parse_response {
     my $self = shift;
-    my %opt  = @_;
-    return $self->{__parser}->parse_response( $self, %opt );
+    return $self->{__parser}->parse_response( $self );
 }
 
 *parse_xml = \&parse_response;
