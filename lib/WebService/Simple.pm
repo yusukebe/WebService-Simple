@@ -118,7 +118,28 @@ sub __cache_key
 
 sub request_url {
     my $self = shift;
-    my ($url, %extra);
+    my %args = @_;
+
+    my $uri = URI->new($args{url});
+    if(my $extra_path = $args{extra_path}){
+        $extra_path =~ s!^/!!;
+        $uri->path( $uri->path . $extra_path);
+    }
+
+    my $params = $args{params};
+    if ($params) {
+        foreach my $key (keys %$params) {
+            if (utf8::is_utf8($params->{$key})) {
+                $params->{$key} = utf8::encode( $params->{$key} );
+            }
+        $uri->query_form( %$params );
+    }
+
+    return $uri;
+}
+
+sub get {
+    my $self = shift;
 
     if (ref $_[0] eq 'HASH') {
         $url = "";
@@ -130,22 +151,11 @@ sub request_url {
         }
     }
 
-    my $uri = URI->new($self->base_url);
-    if($url){
-        $url =~ s!^/!!;
-        $uri->path( $uri->path . $url);
-    }
-
-    map { utf8::encode($extra{$_}) if utf8::is_utf8($extra{$_}) } keys %extra;
-    $uri->query_form( %{$self->basic_params}, %extra );
-
-    return $uri;
-}
-
-sub get {
-    my $self = shift;
-
-    my $uri = $self->request_url(@_);
+    my $uri = $self->request_url(
+        url        => $self->base_url,
+        extra_path => $url,
+        params     => { %{$self->basic_params}, %extra }
+    );
     print  "Request URL is $uri\n" if $self->{debug};
 
     my @headers = @_;
@@ -173,7 +183,11 @@ sub post
 {
     my ($self, $url, @params) = @_;
 
-    my $uri = $self->request_url($url);
+    # XXX - do not include params
+    my $uri = $self->request_url(
+        url => $self->base_url,
+        extra_path => $url
+    );
 
     # default parameters must come *before* @params, so unshift instead
     # of push
