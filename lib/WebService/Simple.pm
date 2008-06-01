@@ -132,6 +132,7 @@ sub request_url {
             if (utf8::is_utf8($params->{$key})) {
                 $params->{$key} = utf8::encode( $params->{$key} );
             }
+        }
         $uri->query_form( %$params );
     }
 
@@ -140,6 +141,7 @@ sub request_url {
 
 sub get {
     my $self = shift;
+    my ($url, %extra);
 
     if (ref $_[0] eq 'HASH') {
         $url = "";
