@@ -127,9 +127,7 @@ sub request_url {
     my $params = $args{params};
     if ($params) {
         foreach my $key ( keys %$params ) {
-            if ( utf8::is_utf8( $params->{$key} ) ) {
-                $params->{$key} = utf8::encode( $params->{$key} );
-            }
+            utf8::encode( $params->{$key} ) if utf8::is_utf8 $params->{$key};
         }
         $uri->query_form(%$params);
     }
