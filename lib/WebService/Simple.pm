@@ -174,7 +174,7 @@ sub get {
         response => $response,
         parser   => $self->response_parser
     );
-    $self->__cache_set( [ $uri, @headers ], $response );
+    $self->__cache_set( [ $uri, @headers ], Data::Dumper::Dumper($response) );
     return $response;
 }
 

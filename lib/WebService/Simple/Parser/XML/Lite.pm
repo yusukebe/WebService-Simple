@@ -5,6 +5,8 @@ use base qw(WebService::Simple::Parser);
 use XML::Parser::Lite::Tree;
 use XML::Parser::Lite::Tree::XPath;
 
+__PACKAGE__->mk_accessors($_) for qw(lite);
+
 sub new
 {
     my $class = shift;
