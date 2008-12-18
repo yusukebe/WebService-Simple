@@ -22,8 +22,7 @@ sub parse_response
     my $self = shift;
     my $content =$_[0]->content;
     # JSONP to pure JSON
-    $content =~ s/[a-zA-Z0-9_]+\((.+)\)/$1/;
-    $content =~ s/;$//;
+    $content =~ s/[a-zA-Z_\$][a-zA-Z0-9_\$]*\s*\((.+)\)\s*;?\s*$/$1/;
     $self->{json}->decode( $content );
 }
 
