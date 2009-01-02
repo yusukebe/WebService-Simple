@@ -124,14 +124,7 @@ sub request_url {
         $uri->path( $uri->path . $extra_path );
     }
 
-    my $params = $args{params};
-    if ($params) {
-        foreach my $key ( keys %$params ) {
-            utf8::encode( $params->{$key} ) if utf8::is_utf8 $params->{$key};
-        }
-        $uri->query_form(%$params);
-    }
-
+    $uri->query_form(%{$args{params}});
     return $uri;
 }
 
@@ -155,7 +148,7 @@ sub get {
         extra_path => $url,
         params     => { %{ $self->basic_params }, %extra }
     );
-    print "Request URL is $uri\n" if $self->{debug};
+    warn "Request URL is $uri\n" if $self->{debug};
 
     my @headers = @_;
 
