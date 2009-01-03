@@ -32,6 +32,7 @@ META.yml
 README
 t/00_load.t
 t/01_basic.t
+t/01_escape.t
 t/02_parser.t
 t/02_parser_json.t
 t/02_parser_libxml.t

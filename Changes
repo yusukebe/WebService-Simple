@@ -1,4 +1,8 @@
 Revision history for WebService-Simple
+
+0.13  Sta Jun 3 13:05:00 2009
+       - bug fix about cache
+       - add test for uri escape 
 0.12  Mon MAY 26 01:10:00 2008
        - bug fix, thanks to lestrrat
 0.11  Fri Apr 27 22:22:00 2008
