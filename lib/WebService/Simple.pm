@@ -148,6 +148,7 @@ sub get {
         extra_path => $url,
         params     => { %{ $self->basic_params }, %extra }
     );
+
     warn "Request URL is $uri\n" if $self->{debug};
 
     my @headers = @_;
@@ -167,7 +168,7 @@ sub get {
         response => $response,
         parser   => $self->response_parser
     );
-    $self->__cache_set( [ $uri, @headers ], Data::Dumper::Dumper($response) );
+    $self->__cache_set( [ $uri, @headers ], $response );
     return $response;
 }
 

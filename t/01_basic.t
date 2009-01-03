@@ -66,9 +66,10 @@ SKIP: {
     for (1..3) {
         my $tmp = $simple->get( { method => "flickr.test.echo", name => "value" } );
         if ($response) {
-            is( $tmp, $response, "got cached $response" );
+            is( $tmp, $response, "got cached $response by $tmp" );
         } else {
             $response = $tmp;
         }
     }
 }
+
