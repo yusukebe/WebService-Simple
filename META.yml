@@ -17,6 +17,9 @@ no_index:
     - t
 recommends:
   XML::LibXML: 0
+  XML::Parser::Lite::Tree: 0
+  XML::Parser::Lite::Tree::XPath: 0
+  XML::Feed: 0
 requires:
   Class::Accessor::Fast: 0
   Class::Data::ConfigHash: 0

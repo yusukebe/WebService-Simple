@@ -1,6 +1,8 @@
 Revision history for WebService-Simple
 
-0.13  Sta Jun 3 13:05:00 2009
+0.14  Sat Jun 31 08:48:00 2009
+       - add a parser using XML::Feed
+0.13  Sat Jun 3 13:05:00 2009
        - bug fix about cache
        - add test for uri escape 
 0.12  Mon MAY 26 01:10:00 2008

@@ -15,9 +15,9 @@ requires( 'UNIVERSAL::require' );
 requires( 'XML::Simple' );
 
 recommends( 'XML::LibXML' );
-
 recommends( 'XML::Parser::Lite::Tree' );
 recommends( 'XML::Parser::Lite::Tree::XPath' );
+recommends( 'XML::Feed' );
 
 build_requires( 'Test::More' );
 build_requires( 'Test::Pod' );
