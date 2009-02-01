@@ -1,7 +1,14 @@
 use strict;
-use Test::More qw( no_plan );
+use Test::More;
 
 BEGIN {
+    eval { require XML::Feed; };
+    if ($@) {
+        plan( skip_all => "XML::Feed not installed" );
+    }
+    else {
+        plan( tests => 3 );
+    }
     use_ok("WebService::Simple");
 }
 
@@ -14,10 +21,8 @@ BEGIN {
     isa_ok( $service->response_parser,
         "WebService::Simple::Parser::XML::Feed" );
 
-    my $response =
-      $service->get( { q => "oasis" } );
+    my $response = $service->get( { q => "oasis" } );
     my $feed = $response->parse_response;
-    isa_ok( $feed, 'XML::Feed::Atom');
+    isa_ok( $feed, 'XML::Feed::Atom' );
 }
-
 
