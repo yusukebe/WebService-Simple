@@ -13,6 +13,7 @@ requires( 'JSON', '2.0' );
 requires( 'LWP::UserAgent' );
 requires( 'UNIVERSAL::require' );
 requires( 'XML::Simple' );
+requires( 'URI',1.36 );
 
 recommends( 'XML::LibXML' );
 recommends( 'XML::Parser::Lite::Tree' );
