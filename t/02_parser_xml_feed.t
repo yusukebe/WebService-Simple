@@ -23,6 +23,6 @@ BEGIN {
 
     my $response = $service->get( { q => "oasis" } );
     my $feed = $response->parse_response;
-    isa_ok( $feed, 'XML::Feed::Atom' );
+    like( ref($feed), qr/^(?:XML::Feed::Atom|XML::Feed::Format::Atom)$/ );
 }
 

@@ -3,11 +3,14 @@ abstract: 'Simple Interface To Web Services APIs'
 author:
   - 'Yusuke Wada  C<< <yusuke@kamawada.com> >>'
 build_requires:
+  ExtUtils::MakeMaker: 6.42
   Pod::Coverage: 0
   Test::More: 0
   Test::Pod: 0
+configure_requires:
+  ExtUtils::MakeMaker: 6.42
 distribution_type: module
-generated_by: 'Module::Install version 0.80'
+generated_by: 'Module::Install version 0.87'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -15,6 +18,7 @@ meta-spec:
 name: WebService-Simple
 no_index:
   directory:
+    - example
     - inc
     - t
 recommends:
