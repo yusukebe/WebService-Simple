@@ -1,12 +1,15 @@
 Revision history for WebService-Simple
 
+0.16  2009/6/13
+       - Fixed some tests, thanks to tomyhero and tokuhirom.
+       - Add docoments to POD.
 0.15  Sun Feb 1 13:49:00 2009
        - fixed test for XML::Feed parser
 0.14  Sat Jun 31 08:48:00 2009
        - add a parser using XML::Feed
 0.13  Sat Jun 3 13:05:00 2009
        - bug fix about cache
-       - add test for uri escape 
+       - add test for uri escape
 0.12  Mon MAY 26 01:10:00 2008
        - bug fix, thanks to lestrrat
 0.11  Fri Apr 27 22:22:00 2008

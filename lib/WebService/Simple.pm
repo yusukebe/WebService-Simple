@@ -11,7 +11,7 @@ use URI::Escape;
 use WebService::Simple::Response;
 use UNIVERSAL::require;
 
-our $VERSION = '0.15';
+our $VERSION = '0.16';
 
 __PACKAGE__->config(
     base_url        => '',
@@ -323,7 +323,7 @@ that by providing a parser object to the constructor:
   my $response = $service->get( ... );
   my $thing = $response->parse_response;
 
-For example. if you want to set XML::Simple options, use WebService::Simple::Parser::XML::Simple
+For example. If you want to set XML::Simple options, use WebService::Simple::Parser::XML::Simple
 including this module:
 
   use WebService::Simple;
