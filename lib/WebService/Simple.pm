@@ -323,6 +323,21 @@ that by providing a parser object to the constructor:
   my $response = $service->get( ... );
   my $thing = $response->parse_response;
 
+For example. if you want to set XML::Simple options, use WebService::Simple::Parser::XML::Simple
+including this module:
+
+  use WebService::Simple;
+  use WebService::Simple::Parser::XML::Simple;
+  use XML::Simple;
+  
+  my $xs = XML::Simple->new( KeyAttr => [], ForceArray => ['entry'] );
+  my $service = WebService::Simple->new(
+      base_url => "http://gdata.youtube.com/feeds/api/videos",
+      param    => { v => 2 },
+      response_parser =>
+        WebService::Simple::Parser::XML::Simple->new( xs => $xs ),
+  );
+
 This allows great flexibility in handling different webservices
 
 =head1 CACHING
@@ -340,6 +355,9 @@ You can cache the response of Web Service by using Cache object.
       param    => { api_key => "your_api_key, }
   );
 
+=head1 SVN REPOSITORY
+
+http://svn.coderepos.org/share/lang/perl/WebService-Simple/
 
 =head1 AUTHOR
 
