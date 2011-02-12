@@ -9,7 +9,7 @@ use URI::Escape;
 use WebService::Simple::Response;
 use UNIVERSAL::require;
 
-our $VERSION = '0.16';
+our $VERSION = '0.17';
 
 __PACKAGE__->config(
     base_url        => '',

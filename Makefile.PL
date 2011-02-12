@@ -22,5 +22,7 @@ recommends( 'XML::Feed' );
 
 test_requires( 'Test::More' );
 
+tests 't/*.t';
+
 auto_include;
 WriteAll;

@@ -1,4 +1,3 @@
-.shipit
 Changes
 example/flickr_echo.pl
 example/flickr_json.pl
@@ -30,6 +29,7 @@ META.yml
 README
 t/00_load.t
 t/01_basic.t
+t/01_api.t
 t/01_escape.t
 t/02_parser.t
 t/02_parser_json.t
