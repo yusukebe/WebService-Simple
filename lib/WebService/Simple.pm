@@ -1,5 +1,3 @@
-# $Id$
-
 package WebService::Simple;
 use strict;
 use warnings;
@@ -377,6 +375,8 @@ Yusuke Wada  C<< <yusuke@kamawada.com> >>
 Daisuke Maki C<< <daisuke@endeworks.jp> >>
 
 Matsuno Tokuhiro
+
+Naoki Tomita (tomi-ru)
 
 =head1 COPYRIGHT AND LICENSE
 

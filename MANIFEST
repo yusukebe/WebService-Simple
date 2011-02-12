@@ -16,9 +16,6 @@ inc/Module/Install/Makefile.pm
 inc/Module/Install/Metadata.pm
 inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
-inc/Pod/Coverage.pm
-inc/Test/More.pm
-inc/Test/Pod.pm
 lib/WebService/Simple.pm
 lib/WebService/Simple/Parser.pm
 lib/WebService/Simple/Parser/JSON.pm

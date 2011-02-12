@@ -1,10 +1,8 @@
 use strict;
-use Test::More tests => 50;
-
+use Test::More;
 use WebService::Simple;
 
-
-# subtest 'no default param / get()' => sub
+subtest 'no default param / get()' => sub
 {
     my $ws = WebService::Simple->new(
         base_url => 'http://example.com/',
@@ -42,7 +40,7 @@ use WebService::Simple;
 };
 
 
-# subtest 'with default param / get()' => sub
+subtest 'with default param / get()' => sub
 {
     my $ws = WebService::Simple->new(
         base_url => 'http://example.com/',
@@ -81,7 +79,7 @@ use WebService::Simple;
 };
 
 
-# subtest 'no default param / post()' => sub
+subtest 'no default param / post()' => sub
 {
     my $ws = WebService::Simple->new(
         base_url => 'http://example.com/',
@@ -126,7 +124,7 @@ use WebService::Simple;
 };
 
 
-# subtest 'with default param / post()' => sub
+subtest 'with default param / post()' => sub
 {
     my $ws = WebService::Simple->new(
         base_url => 'http://example.com/',
@@ -171,4 +169,4 @@ use WebService::Simple;
     is($req->content, 'boo', "don't check Content");
 };
 
-# done_testing();
+done_testing();

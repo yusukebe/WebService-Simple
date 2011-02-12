@@ -20,7 +20,7 @@ recommends( 'XML::Parser::Lite::Tree' );
 recommends( 'XML::Parser::Lite::Tree::XPath' );
 recommends( 'XML::Feed' );
 
-build_requires( 'Test::More' );
+test_requires( 'Test::More' );
 
 auto_include;
 WriteAll;

@@ -4,13 +4,10 @@ author:
   - 'Yusuke Wada  C<< <yusuke@kamawada.com> >>'
 build_requires:
   ExtUtils::MakeMaker: 6.42
-  Pod::Coverage: 0
-  Test::More: 0
-  Test::Pod: 0
 configure_requires:
   ExtUtils::MakeMaker: 6.42
 distribution_type: module
-generated_by: 'Module::Install version 0.87'
+generated_by: 'Module::Install version 1.00'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -39,4 +36,4 @@ requires:
   XML::Simple: 0
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.15
+version: 0.16
