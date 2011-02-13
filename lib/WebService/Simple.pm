@@ -174,15 +174,16 @@ sub post {
     my $self = shift;
     my ( $url, %extra );
 
-    if ( ref $_[0] eq 'HASH' ) {
+    if ( ref $_[0] eq 'HASH' ) {    # post(\%arg [, @header ])
         $url   = "";
         %extra = %{ shift @_ };
     }
-    else {
+    elsif ( ref $_[1] eq 'HASH' ) { # post($url, \%arg [, @header ])
         $url = shift @_;
-        if ( ref $_[0] eq 'HASH' ) {
-            %extra = %{ shift @_ };
-        }
+        %extra = %{ shift @_ };
+    }
+    elsif ( @_ % 2 ) {              # post($url [, @header ])
+        $url = shift @_;
     }
 
     # XXX - do not include params

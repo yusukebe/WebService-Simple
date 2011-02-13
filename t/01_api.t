@@ -119,8 +119,17 @@ subtest 'no default param / post()' => sub
     is($req->content, 'bar=123', "extra_path + args + header");
     is($req->header('X-Test'), 'boo', "extra_path + args + header");
     
-    $ws->post({ bar => 123 }, 'Content' => 'boo');
-    is($req->content, 'boo', "don't check Content");
+    $ws->post({ bar => 123 }, 'Content' => { xxx => 'yyy' });
+    is($req->content, 'xxx=yyy', "Content overwriting default_arg and arg");
+    
+    $ws->post('Content' => { xxx => 'yyy' });
+    is($req->uri->as_string, 'http://example.com/Content', "first 'Content' is used as extra_path(maybe wrong)");
+    is($req->content, 'xxx=yyy', "first 'Content' is used as extra_path(maybe wrong)");
+    
+    $ws->post('X-Test' => 'boo', 'Content' => { xxx => 'yyy' });
+    is($req->uri->as_string, 'http://example.com/', "no extra_path and no extra args");
+    is($req->content, 'xxx=yyy', "no extra_path and no extra args");
+    is($req->header('X-Test'), 'boo', "no extra_path and no extra args");
 };
 
 
@@ -165,8 +174,8 @@ subtest 'with default param / post()' => sub
     is($req->content, 'bar=123&aaa=zzz', "extra_path + args + header");
     is($req->header('X-Test'), 'boo', "extra_path + args + header");
     
-    $ws->post({ bar => 123 }, 'Content' => 'boo');
-    is($req->content, 'boo', "don't check Content");
+    $ws->post({ bar => 123 }, 'Content' => { xxx => 'yyy' });
+    is($req->content, 'xxx=yyy', "Content overwriting default_arg and arg");
 };
 
 done_testing();
