@@ -20,7 +20,7 @@ recommends( 'XML::Parser::Lite::Tree' );
 recommends( 'XML::Parser::Lite::Tree::XPath' );
 recommends( 'XML::Feed' );
 
-test_requires( 'Test::More' );
+test_requires( 'Test::More', => 0.94 ); # subtest
 
 tests 't/*.t';
 
