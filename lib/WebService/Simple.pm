@@ -154,19 +154,25 @@ sub get {
     my $response;
     $response = $self->__cache_get( [ $uri, @headers ] );
     if ($response) {
-        return $response;
+        if ($response->isa('WebService::Simple::Response')) { # backward compatibility
+            return $response;
+        } else {
+            return WebService::Simple::Response->new_from_response(
+                response => $response,
+                parser => $self->response_parser
+            );
+        }
     }
 
     $response = $self->SUPER::get( $uri, @headers );
     if ( !$response->is_success ) {
         Carp::croak("request to $uri failed");
     }
-
+    $self->__cache_set( [ $uri, @headers ], $response );
     $response = WebService::Simple::Response->new_from_response(
         response => $response,
         parser   => $self->response_parser
     );
-    $self->__cache_set( [ $uri, @headers ], $response );
     return $response;
 }
 
@@ -239,6 +245,25 @@ WebService::Simple is a simple class to interact with web services.
 
 It's basically an LWP::UserAgent that remembers recurring api URLs and
 parameters, plus sugar to parse the results.
+
+=head1 EXAMPLE
+
+Example script using Twitter Search API.
+
+    use WebService::Simple;
+    binmode STDOUT, ":utf8";
+
+    my $service = WebService::Simple->new(
+        base_url        => 'http://search.twitter.com/search.json',
+        param           => { locale => 'ja' },
+        response_parser => 'JSON'
+    );
+
+    my $res = $service->get( { q => 'perl' } );
+    my $json = $res->parse_response;
+    for my $tweet ( @{ $json->{results} } ) {
+        print "$tweet->{from_user}: $tweet->{text}\n";
+    }
 
 =head1 METHODS
 
