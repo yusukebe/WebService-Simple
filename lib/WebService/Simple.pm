@@ -255,7 +255,7 @@ Example script using Twitter Search API.
 
     my $service = WebService::Simple->new(
         base_url        => 'http://search.twitter.com/search.json',
-        param           => { locale => 'jp' },
+        param           => { locale => 'ja' },
         response_parser => 'JSON'
     );
 
