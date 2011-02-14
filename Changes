@@ -1,5 +1,8 @@
 Revision history for WebService-Simple
 
+0.18  2011/2/14
+       - Modified caching mechanism. thanks to tomi-ru!
+       - Add twitter example to POD.
 0.17  2011/2/12
        - Post enabled. thanks to tomi-ru!
 0.16  2009/6/13
