@@ -37,5 +37,5 @@ t/02_parser_libxml.t
 t/02_parser_lite.t
 t/02_parser_xml_simple.t
 t/02_parser_xml_feed.t
-t/pod-coverage.t
-t/pod.t
+xt/pod-coverage.t
+xt/pod.t
