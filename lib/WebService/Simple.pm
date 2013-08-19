@@ -246,25 +246,6 @@ WebService::Simple is a simple class to interact with web services.
 It's basically an LWP::UserAgent that remembers recurring api URLs and
 parameters, plus sugar to parse the results.
 
-=head1 EXAMPLE
-
-Example script using Twitter Search API.
-
-    use WebService::Simple;
-    binmode STDOUT, ":utf8";
-
-    my $service = WebService::Simple->new(
-        base_url        => 'http://search.twitter.com/search.json',
-        param           => { locale => 'ja' },
-        response_parser => 'JSON'
-    );
-
-    my $res = $service->get( { q => 'perl' } );
-    my $json = $res->parse_response;
-    for my $tweet ( @{ $json->{results} } ) {
-        print "$tweet->{from_user}: $tweet->{text}\n";
-    }
-
 =head1 METHODS
 
 =over 4
@@ -390,9 +371,9 @@ You can cache the response of Web Service by using Cache object.
       param    => { api_key => "your_api_key, }
   );
 
-=head1 SVN REPOSITORY
+=head1 REPOSITORY
 
-http://svn.coderepos.org/share/lang/perl/WebService-Simple/
+https://github.com/yusukebe/WebService-Simple
 
 =head1 AUTHOR
 
