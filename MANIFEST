@@ -31,7 +31,8 @@ MANIFEST
 META.yml
 README
 t/00_load.t
-t/01_api.t
+t/01_api_get.t
+t/01_api_post.t
 t/01_basic.t
 t/01_escape.t
 t/02_parser.t

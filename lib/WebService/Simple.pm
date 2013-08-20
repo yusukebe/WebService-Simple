@@ -6,10 +6,11 @@ use Class::Inspector;
 use Data::Dumper ();
 use Digest::MD5  ();
 use URI::Escape;
+use URI::QueryParam;
 use WebService::Simple::Response;
 use UNIVERSAL::require;
 
-our $VERSION = '0.19';
+our $VERSION = '0.20';
 
 __PACKAGE__->config(
     base_url        => '',
@@ -22,7 +23,10 @@ sub new {
     my $base_url = delete $args{base_url}
       || $class->config->{base_url}
       || Carp::croak("base_url is required");
+    $base_url = URI->new($base_url);
     my $basic_params = delete $args{params} || delete $args{param} || {};
+    $base_url->query_form_hash($basic_params);
+
     my $debug = delete $args{debug} || 0;
 
     my $response_parser = delete $args{response_parser}
@@ -64,7 +68,7 @@ sub new {
     }
 
     my $self = $class->SUPER::new(%args);
-    $self->{base_url}        = URI->new($base_url);
+    $self->{base_url}        = $base_url;
     $self->{basic_params}    = $basic_params;
     $self->{response_parser} = $response_parser;
     $self->{cache}           = $cache;
@@ -115,36 +119,37 @@ sub __cache_key {
 sub request_url {
     my $self = shift;
     my %args = @_;
-
-    my $uri = URI->new( $args{url} );
+    
+    my $uri = (ref $args{url}) =~ m/^URI/ ? $args{url}->clone() : URI->new($args{uri});
     if ( my $extra_path = $args{extra_path} ) {
         $extra_path =~ s!^/!!;
         $uri->path( $uri->path . $extra_path );
     }
-
-    $uri->query_form(%{$args{params}});
+    if($args{params}) {
+        $uri->query_form(%{$args{params}}, $uri->query_form());
+    }
     return $uri;
 }
 
 sub get {
     my $self = shift;
-    my ( $url, %extra );
+    my ( $url, $extra );
 
     if ( ref $_[0] eq 'HASH' ) {
         $url   = "";
-        %extra = %{ shift @_ };
+        $extra = shift @_;
     }
     else {
         $url = shift @_;
         if ( ref $_[0] eq 'HASH' ) {
-            %extra = %{ shift @_ };
+            $extra = shift @_;
         }
     }
 
     my $uri = $self->request_url(
         url        => $self->base_url,
         extra_path => $url,
-        params     => { %{ $self->basic_params }, %extra }
+        params     => $extra
     );
 
     warn "Request URL is $uri\n" if $self->{debug};
@@ -178,29 +183,30 @@ sub get {
 
 sub post {
     my $self = shift;
-    my ( $url, %extra );
+    my ( $url, $extra ) = ( '', undef );
 
-    if ( ref $_[0] eq 'HASH' ) {    # post(\%arg [, @header ])
-        $url   = "";
-        %extra = %{ shift @_ };
+    if ( ref $_[0] eq 'HASH' ) { # post(\%arg [, @header ])
+        $extra = shift @_;
     }
     elsif ( ref $_[1] eq 'HASH' ) { # post($url, \%arg [, @header ])
         $url = shift @_;
-        %extra = %{ shift @_ };
+        $extra = shift @_;
     }
-    elsif ( @_ % 2 ) {              # post($url [, @header ])
+    elsif ( @_ % 2 ) { # post($url [, @header ])
         $url = shift @_;
     }
 
-    # XXX - do not include params
     my $uri = $self->request_url(
         url        => $self->base_url,
-        extra_path => $url
+        extra_path => $url,
+        params => $extra
     );
+    my $content = $uri->query_form_hash();
+    $uri->query_form(undef);
 
     my @headers = @_;
-    
-    my $response = $self->SUPER::post( $uri, { %{ $self->basic_params }, %extra }, @headers );
+
+    my $response = $self->SUPER::post( $uri, $content, @headers );
 
     if ( !$response->is_success ) {
         Carp::croak( "request to $url failed: " . $response->status_line );
