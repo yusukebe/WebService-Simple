@@ -10,7 +10,7 @@ use URI::QueryParam;
 use WebService::Simple::Response;
 use UNIVERSAL::require;
 
-our $VERSION = '0.20';
+our $VERSION = '0.21';
 
 __PACKAGE__->config(
     base_url        => '',
@@ -120,7 +120,7 @@ sub request_url {
     my $self = shift;
     my %args = @_;
     
-    my $uri = (ref $args{url}) =~ m/^URI/ ? $args{url}->clone() : URI->new($args{uri});
+    my $uri = ref($args{url}) =~ m/^URI/ ? $args{url}->clone() : URI->new($args{uri});
     if ( my $extra_path = $args{extra_path} ) {
         $extra_path =~ s!^/!!;
         $uri->path( $uri->path . $extra_path );

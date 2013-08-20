@@ -1,5 +1,7 @@
 Revision history for WebService-Simple
 
+0.21  2013/08/20
+       - Update tests for using XML::Parser::Lite::Tree
 0.20  2013/08/20
        - Support Perl 5.18.*
        - Fixed for Hash randomization.

@@ -39,4 +39,4 @@ requires:
 resources:
   license: http://dev.perl.org/licenses/
   repository: git://github.com/yusukebe/WebService-Simple.git
-version: 0.19
+version: 0.21

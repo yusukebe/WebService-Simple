@@ -5,9 +5,9 @@ my $flickr_api_key = $ENV{FLICKR_API_KEY};
 BEGIN
 {
     eval {
-	 require XML::Parser::Lite::Tree;
-	 require XML::Parser::Lite::Tree::XPath;
-	 };
+        require XML::Parser::Lite::Tree;
+        require XML::Parser::Lite::Tree::XPath;
+    };
     if ($@) {
         plan(skip_all => "XML::Parser::Lite::Tree not installed");
     } else {
@@ -35,9 +35,9 @@ BEGIN
         my $xml = $response->parse_response;
     
         isa_ok( $xml, 'XML::Parser::Lite::Tree::XPath' );
-        is( ($xml->select_nodes( '/rsp' ))[-1]->{attributes}->{stat}, 'ok', '/rsp and @stat' );
-        is( ($xml->select_nodes( '/rsp/api_key' ))[-1]->{children}[0]->{content}, $flickr_api_key, '/rsp/api_key', );
-        is( ($xml->select_nodes( '/rsp/name' ))[-1]->{children}[0]->{content}, "value", '/rsp/name' );
-        is( ($xml->select_nodes( '/rsp/method' ))[-1]->{children}[0]->{content}, 'flickr.test.echo', '/rsp/method' );
+        is( $xml->select_nodes( '/rsp' )->[-1]{attributes}{stat}, 'ok', '/rsp and @stat' );
+        is( $xml->select_nodes( '/rsp/api_key' )->[-1]{children}[0]{content}, $flickr_api_key, '/rsp/api_key', );
+        is( $xml->select_nodes( '/rsp/name' )->[-1]{children}[0]{content}, "value", '/rsp/name' );
+        is( $xml->select_nodes( '/rsp/method' )->[-1]{children}[0]{content}, 'flickr.test.echo', '/rsp/method' );
     }
 }
