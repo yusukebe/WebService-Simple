@@ -76,6 +76,8 @@ sub new {
     return $self;
 }
 
+sub _agent       { "libwww-perl/$LWP::VERSION+". __PACKAGE__ .'/'.$VERSION }
+
 sub base_url        { $_[0]->{base_url} }
 sub basic_params    { $_[0]->{basic_params} }
 sub response_parser { $_[0]->{response_parser} }
