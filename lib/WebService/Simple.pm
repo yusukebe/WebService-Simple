@@ -149,7 +149,10 @@ sub get {
     my $uri = $self->request_url(
         url        => $self->base_url,
         extra_path => $url,
-        params     => $extra
+        params     => {
+                %{ $extra },
+                %{ $self->{basic_params} },
+        }
     );
 
     warn "Request URL is $uri\n" if $self->{debug};
