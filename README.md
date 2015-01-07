@@ -25,7 +25,7 @@ WebService::Simple - Simple Interface To Web Services APIs
 
 WebService::Simple is a simple class to interact with web services.
 
-It's basically an LWP::UserAgent that remembers recurring api URLs and
+It's basically an LWP::UserAgent that remembers recurring API URLs and
 parameters, plus sugar to parse the results.
 
 # METHODS
@@ -62,13 +62,13 @@ parameters, plus sugar to parse the results.
 
 - request\_url(_$extra\_path, $args_)
 
-    Return reequest URL.
+    Return request URL.
 
 - base\_url
 - basic\_params
 - cache
 
-    Each request is prepended by an optional cache look-up. If you suppliy a cache
+    Each request is prepended by an optional cache look-up. If you supply a cache
     object upon new(), the module will look into the cache first.
 
 - response\_parser
@@ -132,7 +132,7 @@ including this module:
           WebService::Simple::Parser::XML::Simple->new( xs => $xs ),
     );
 
-This allows great flexibility in handling different webservices
+This allows great flexibility in handling different Web Services
 
 # CACHING
 

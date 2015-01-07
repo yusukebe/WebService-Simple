@@ -11,7 +11,7 @@ use HTTP::Message;
 use WebService::Simple::Response;
 use UNIVERSAL::require;
 
-our $VERSION = '0.21';
+our $VERSION = '0.22';
 
 __PACKAGE__->config(
     base_url        => '',
@@ -251,7 +251,7 @@ WebService::Simple - Simple Interface To Web Services APIs
 
 WebService::Simple is a simple class to interact with web services.
 
-It's basically an LWP::UserAgent that remembers recurring api URLs and
+It's basically an LWP::UserAgent that remembers recurring API URLs and
 parameters, plus sugar to parse the results.
 
 =head1 METHODS
@@ -290,7 +290,7 @@ Send POST request.
 
 =item request_url(I<$extra_path, $args>)
 
-Return reequest URL.
+Return request URL.
 
 =item base_url
 
@@ -298,7 +298,7 @@ Return reequest URL.
 
 =item cache
 
-Each request is prepended by an optional cache look-up. If you suppliy a cache
+Each request is prepended by an optional cache look-up. If you supply a cache
 object upon new(), the module will look into the cache first.
 
 =item response_parser
@@ -365,7 +365,7 @@ including this module:
         WebService::Simple::Parser::XML::Simple->new( xs => $xs ),
   );
 
-This allows great flexibility in handling different webservices
+This allows great flexibility in handling different Web Services
 
 =head1 CACHING
 
