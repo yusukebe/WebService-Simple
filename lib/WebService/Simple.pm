@@ -152,10 +152,12 @@ sub get {
     my $uri = $self->request_url(
         url        => $self->base_url,
         extra_path => $url,
-        params     => {
-                %{ $extra },
-                %{ $self->{basic_params} },
-        }
+        params     => $extra,
+ # this does not work, kept here until we find a better way to carry over basic_params
+#       params     => {
+#           %{ $extra },
+#           %{ $self->{basic_params} },
+#       }
     );
 
     warn "Request URL is $uri\n" if $self->{debug};
