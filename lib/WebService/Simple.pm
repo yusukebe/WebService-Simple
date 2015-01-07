@@ -26,8 +26,6 @@ sub new {
       || Carp::croak("base_url is required");
     $base_url = URI->new($base_url);
     my $basic_params = delete $args{params} || delete $args{param} || {};
-    $base_url->query_form_hash($basic_params);
-
     my $debug = delete $args{debug} || 0;
 
     my $response_parser = delete $args{response_parser}
@@ -123,7 +121,7 @@ sub request_url {
     my $self = shift;
     my %args = @_;
     
-    my $uri = ref($args{url}) =~ m/^URI/ ? $args{url}->clone() : URI->new($args{uri});
+    my $uri = ref($args{url}) =~ m/^URI/ ? $args{url}->clone() : URI->new($args{url});
     if ( my $extra_path = $args{extra_path} ) {
         $extra_path =~ s!^/!!;
         $uri->path( $uri->path . $extra_path );
@@ -136,10 +134,9 @@ sub request_url {
 
 sub get {
     my $self = shift;
-    my ( $url, $extra );
+    my ($url, $extra) = ("", {});
 
     if ( ref $_[0] eq 'HASH' ) {
-        $url   = "";
         $extra = shift @_;
     }
     else {
@@ -150,12 +147,9 @@ sub get {
     }
 
     my $uri = $self->request_url(
-        url        => $self->base_url,
+        url => $self->base_url,
         extra_path => $url,
-        params     => {
-                %{ $extra },
-                %{ $self->{basic_params} },
-        }
+        params => { %$extra, %{$self->basic_params} }
     );
 
     warn "Request URL is $uri\n" if $self->{debug};
@@ -191,7 +185,7 @@ sub get {
 
 sub post {
     my $self = shift;
-    my ( $url, $extra ) = ( '', undef );
+    my ( $url, $extra ) = ( '', {} );
 
     if ( ref $_[0] eq 'HASH' ) { # post(\%arg [, @header ])
         $extra = shift @_;
@@ -207,7 +201,7 @@ sub post {
     my $uri = $self->request_url(
         url        => $self->base_url,
         extra_path => $url,
-        params => $extra
+        params => { %$extra, %{$self->basic_params} }
     );
     my $content = $uri->query_form_hash();
     $uri->query_form(undef);

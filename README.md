@@ -67,6 +67,10 @@ parameters, plus sugar to parse the results.
 - base\_url
 - basic\_params
 - cache
+
+    Each request is prepended by an optional cache look-up. If you suppliy a cache
+    object upon new(), the module will look into the cache first.
+
 - response\_parser
 
 # SUBCLASSING
