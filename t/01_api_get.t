@@ -54,6 +54,7 @@ subtest 'with default param / get()' => sub
     });
 
     $ws->get();
+    ok($req->header('accept-encoding'));
     is($req->uri->as_string, 'http://example.com/?aaa=zzz', "no extra_path");
     
     $ws->get({ bar => 123 });

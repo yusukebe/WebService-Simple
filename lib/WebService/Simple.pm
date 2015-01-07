@@ -7,6 +7,7 @@ use Data::Dumper ();
 use Digest::MD5  ();
 use URI::Escape;
 use URI::QueryParam;
+use HTTP::Message;
 use WebService::Simple::Response;
 use UNIVERSAL::require;
 
@@ -155,6 +156,8 @@ sub get {
     warn "Request URL is $uri\n" if $self->{debug};
 
     my @headers = @_;
+    my $can_accept = HTTP::Message::decodable();
+    push @headers, ('Accept-Encoding' => $can_accept);
 
     my $response;
     $response = $self->__cache_get( [ $uri, @headers ] );
