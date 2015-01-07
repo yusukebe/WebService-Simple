@@ -18,7 +18,7 @@ BEGIN
 
 {
     my $service = WebService::Simple->new(
-        base_url => "http://api.flickr.com/services/rest/",
+        base_url => "https://api.flickr.com/services/rest/",
         response_parser => 'XML::Lite',
         params   => {
             api_key => $flickr_api_key

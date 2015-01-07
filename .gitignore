@@ -22,3 +22,10 @@ MYMETA.yml
 nytprof.out
 pm_to_blib
 MYMETA.*
+/WebService-Simple-*
+/.build
+/_build_params
+/Build
+/Build.bat
+!META.json
+!LICENSE
