@@ -77,6 +77,8 @@ sub new {
     return $self;
 }
 
+sub _agent       { "libwww-perl/$LWP::VERSION+". __PACKAGE__ .'/'.$VERSION }
+
 sub base_url        { $_[0]->{base_url} }
 sub basic_params    { $_[0]->{basic_params} }
 sub response_parser { $_[0]->{response_parser} }
@@ -150,7 +152,10 @@ sub get {
     my $uri = $self->request_url(
         url        => $self->base_url,
         extra_path => $url,
-        params     => $extra
+        params     => {
+                %{ $extra },
+                %{ $self->{basic_params} },
+        }
     );
 
     warn "Request URL is $uri\n" if $self->{debug};
@@ -298,6 +303,9 @@ Return reequest URL.
 =item basic_params
 
 =item cache
+
+Each request is prepended by an optional cache look-up. If you suppliy a cache
+object upon new(), the module will look into the cache first.
 
 =item response_parser
 
