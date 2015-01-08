@@ -4,7 +4,7 @@
       "Yusuke Wada  C<< <yusuke@kamawada.com> >>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v2.3.0, CPAN::Meta::Converter version 2.143240",
+   "generated_by" : "Minilla/v2.3.0, CPAN::Meta::Converter version 2.142690",
    "license" : [
       "perl_5"
    ],
@@ -81,7 +81,7 @@
          "web" : "https://github.com/yusukebe/WebService-Simple"
       }
    },
-   "version" : "0.22",
+   "version" : "0.23",
    "x_authority" : "cpan:YUSUKEBE",
    "x_contributors" : [
       "Daisuke Maki <dmaki@cpan.org>",

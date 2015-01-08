@@ -3,6 +3,8 @@ Revision history for WebService-Simple
 
 {{$NEXT}}
 
+0.23 2015-01-08T05:07:37Z
+
       - Fixed bugs about making URL parmeters.
 
 0.22 2015-01-07T17:11:24Z
