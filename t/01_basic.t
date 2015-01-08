@@ -19,7 +19,7 @@ BEGIN
         base_url => "https://api.flickr.com/services/rest/",
         params   => {
             api_key => $flickr_api_key
-        }
+        },
     );
 
     ok($simple, "object created ok");

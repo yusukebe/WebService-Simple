@@ -13,7 +13,7 @@ BEGIN
         response_parser => 'JSON',
         params   => {
             api_key => $flickr_api_key
-        }
+        },
     );
 
     isa_ok( $service->response_parser, "WebService::Simple::Parser::JSON");

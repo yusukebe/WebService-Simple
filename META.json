@@ -4,7 +4,7 @@
       "Yusuke Wada  C<< <yusuke@kamawada.com> >>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v2.3.0, CPAN::Meta::Converter version 2.142690",
+   "generated_by" : "Minilla/v2.3.0, CPAN::Meta::Converter version 2.143240",
    "license" : [
       "perl_5"
    ],
@@ -59,7 +59,9 @@
             "Class::Inspector" : "0",
             "Data::Dumper" : "0",
             "Digest::MD5" : "0",
+            "Hash::MultiValue" : "0",
             "JSON" : "2.0",
+            "LWP::Protocol::https" : "0",
             "LWP::UserAgent" : "0",
             "UNIVERSAL::require" : "0",
             "URI" : "1.36",

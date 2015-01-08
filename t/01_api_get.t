@@ -58,10 +58,10 @@ subtest 'with default param / get()' => sub
     is($req->uri->as_string, 'http://example.com/?aaa=zzz', "no extra_path");
     
     $ws->get({ bar => 123 });
-    is($req->uri->as_string, 'http://example.com/?bar=123&aaa=zzz', "no extra_path + args");
+    is($req->uri->as_string, 'http://example.com/?aaa=zzz&bar=123', "no extra_path + args");
     
     $ws->get({ bar => 123 }, 'X-Test' => 'boo');
-    is($req->uri->as_string, 'http://example.com/?bar=123&aaa=zzz', "no extra_path + args + header");
+    is($req->uri->as_string, 'http://example.com/?aaa=zzz&bar=123', "no extra_path + args + header");
     is($req->header('X-Test'), 'boo', "no extra_path + args + header");
 
     $ws->get({}, 'X-Test' => 'boo');
@@ -72,10 +72,10 @@ subtest 'with default param / get()' => sub
     is($req->uri->as_string, 'http://example.com/foo?aaa=zzz', "extra_path");
 
     $ws->get('foo', { bar => 123 });
-    is($req->uri->as_string, 'http://example.com/foo?bar=123&aaa=zzz', "extra_path + args");
+    is($req->uri->as_string, 'http://example.com/foo?aaa=zzz&bar=123', "extra_path + args");
     
     $ws->get('foo', { bar => 123 }, 'X-Test' => 'boo');
-    is($req->uri->as_string, 'http://example.com/foo?bar=123&aaa=zzz', "extra_path + args + header");
+    is($req->uri->as_string, 'http://example.com/foo?aaa=zzz&bar=123', "extra_path + args + header");
     is($req->header('X-Test'), 'boo', "extra_path + args + header");
 };
 
