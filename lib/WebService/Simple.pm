@@ -330,10 +330,23 @@ Return request URL.
 
 =item cache
 
-Each request is prepended by an optional cache look-up. If you supply a cache
-object upon new(), the module will look into the cache first.
+Each request is prepended by an optional cache look-up. If you supply a Cache
+object to new(), the module will look into the cache first.
+
+  my $cache   = Cache::File->new(
+      cache_root      => '/tmp/mycache',
+      default_expires => '30 min',
+  );
+  
+  my $flickr = WebService::Simple->new(
+      base_url => "http://api.flickr.com/services/rest/",
+      cache    => $cache,
+      param    => { api_key => "your_api_key, }
+  );
 
 =item response_parser
+
+See PARSERS below.
 
 =back
 
@@ -399,20 +412,6 @@ including this module:
 
 This allows great flexibility in handling different Web Services
 
-=head1 CACHING
-
-You can cache the response of Web Service by using Cache object.
-
-  my $cache   = Cache::File->new(
-      cache_root      => '/tmp/mycache',
-      default_expires => '30 min',
-  );
-  
-  my $flickr = WebService::Simple->new(
-      base_url => "http://api.flickr.com/services/rest/",
-      cache    => $cache,
-      param    => { api_key => "your_api_key, }
-  );
 
 =head1 REPOSITORY
 
