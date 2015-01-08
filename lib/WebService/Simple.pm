@@ -66,12 +66,16 @@ sub new {
                 : %{ $config->{args} } );
         }
     }
+    my $compression = delete $args{compression};
+    my $croak = delete $args{croak};
 
     my $self = $class->SUPER::new(%args);
     $self->{base_url}        = $base_url;
     $self->{basic_params}    = $basic_params;
     $self->{response_parser} = $response_parser;
     $self->{cache}           = $cache;
+    $self->{compression}     = $compression;
+    $self->{croak}           = $croak;
     $self->{debug}           = $debug;
     return $self;
 }
@@ -162,8 +166,10 @@ sub get {
     warn "Request URL is $uri\n" if $self->{debug};
 
     my @headers = @_;
-    my $can_accept = HTTP::Message::decodable();
-    push @headers, ('Accept-Encoding' => $can_accept);
+    unless(defined($self->{compression}) && !$self->{compression}){
+        my $can_accept = HTTP::Message::decodable();
+        push @headers, ('Accept-Encoding' => $can_accept) ;
+    }
 
     my $response;
     $response = $self->__cache_get( [ $uri, @headers ] );
@@ -179,14 +185,17 @@ sub get {
     }
 
     $response = $self->SUPER::get( $uri, @headers );
-    if ( !$response->is_success ) {
-        Carp::croak("request to $uri failed");
+
+    if ( $response->is_success ) {
+        $self->__cache_set( [ $uri, @headers ], $response );
+        $response = WebService::Simple::Response->new_from_response(
+            response => $response,
+            parser   => $self->response_parser
+        );
+    }else{
+        Carp::croak("request to $uri failed") unless defined($self->{croak}) && !$self->{croak};
     }
-    $self->__cache_set( [ $uri, @headers ], $response );
-    $response = WebService::Simple::Response->new_from_response(
-        response => $response,
-        parser   => $self->response_parser
-    );
+
     return $response;
 }
 
@@ -214,16 +223,22 @@ sub post {
     $uri->query_form(undef);
 
     my @headers = @_;
+    unless(defined($self->{compression}) && !$self->{compression}){
+        my $can_accept = HTTP::Message::decodable();
+        push @headers, ('Accept-Encoding' => $can_accept) ;
+    }
 
     my $response = $self->SUPER::post( $uri, $content, @headers );
 
-    if ( !$response->is_success ) {
-        Carp::croak( "request to $url failed: " . $response->status_line );
+    if ( $response->is_success ) {
+        $response = WebService::Simple::Response->new_from_response(
+            response => $response,
+            parser   => $self->response_parser
+        );
+    }else{
+        Carp::croak("request to $uri failed") unless defined($self->{croak}) && !$self->{croak};
     }
-    $response = WebService::Simple::Response->new_from_response(
-        response => $response,
-        parser   => $self->response_parser
-    );
+
     return $response;
 }
 
@@ -270,12 +285,22 @@ parameters, plus sugar to parse the results.
     my $flickr = WebService::Simple->new(
         base_url => "http://api.flickr.com/services/rest/",
         param    => { api_key => "your_api_key", },
-        # debug    => 1
+        # compression => 0
+        # croak       => 0
+        # debug       => 1
     );
 
 Create and return a new WebService::Simple object.
 "new" Method requires a base_url of Web Service API.
-If debug is set, dump a request URL in get or post method.
+
+By default, the module calls Carp::croak (dies) on unsuccessful HTTP requests. If
+you want to change this behaviour, set croak to FALSE and get() or post() will return
+the HTTP::Response object on success and failure, just like the base LWP::UserAgent.
+
+By default the module will attempt to use HTTP compression if the Compress::Zlib
+module is available. Pass compress => 0 to ->new() to disable this feature.
+
+If debug is set, the request URL will be dumped via warn() on get or post method calls .
 
 =item get(I<[$extra_path,] $args>)
 
