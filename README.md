@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/yusukebe/WebService-Simple.svg?branch=master)](https://travis-ci.org/yusukebe/WebService-Simple)
 # NAME
 
 WebService::Simple - Simple Interface To Web Services APIs

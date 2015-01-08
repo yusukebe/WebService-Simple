@@ -149,7 +149,7 @@ sub get {
     my $uri = $self->request_url(
         url => $self->base_url,
         extra_path => $url,
-        params => { %$extra, %{$self->basic_params} }
+        params => { %{$self->basic_params}, %$extra }
     );
 
     warn "Request URL is $uri\n" if $self->{debug};
@@ -201,7 +201,7 @@ sub post {
     my $uri = $self->request_url(
         url        => $self->base_url,
         extra_path => $url,
-        params => { %$extra, %{$self->basic_params} }
+        params => { %{$self->basic_params}, %$extra }
     );
     my $content = $uri->query_form_hash();
     $uri->query_form(undef);
