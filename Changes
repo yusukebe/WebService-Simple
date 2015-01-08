@@ -3,6 +3,8 @@ Revision history for WebService-Simple
 
 {{$NEXT}}
 
+      - Fixed bugs about making URL parmeters.
+
 0.22 2015-01-07T17:11:24Z
 
       - Support HTTP compression, thank you @isync
