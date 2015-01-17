@@ -3,6 +3,11 @@ Revision history for WebService-Simple
 
 {{$NEXT}}
 
+0.24 2015-01-17T06:20:25Z
+
+      - Optional no compression, or no croak() on HTTP is_error by @isync, thank you!
+      - Fixed tests, check URI query parmeters using URI::QueryParam.
+
 0.23 2015-01-08T05:07:37Z
 
       - Fixed bugs about making URL parmeters.

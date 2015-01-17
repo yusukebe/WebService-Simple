@@ -81,7 +81,7 @@
          "web" : "https://github.com/yusukebe/WebService-Simple"
       }
    },
-   "version" : "0.23",
+   "version" : "0.24",
    "x_authority" : "cpan:YUSUKEBE",
    "x_contributors" : [
       "Daisuke Maki <dmaki@cpan.org>",
