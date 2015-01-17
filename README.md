@@ -36,12 +36,22 @@ parameters, plus sugar to parse the results.
         my $flickr = WebService::Simple->new(
             base_url => "http://api.flickr.com/services/rest/",
             param    => { api_key => "your_api_key", },
-            # debug    => 1
+            # compression => 0
+            # croak       => 0
+            # debug       => 1
         );
 
     Create and return a new WebService::Simple object.
     "new" Method requires a base\_url of Web Service API.
-    If debug is set, dump a request URL in get or post method.
+
+    By default, the module calls Carp::croak (dies) on unsuccessful HTTP requests. If
+    you want to change this behaviour, set croak to FALSE and get() or post() will return
+    the HTTP::Response object on success and failure, just like the base LWP::UserAgent.
+
+    By default the module will attempt to use HTTP compression if the Compress::Zlib
+    module is available. Pass compress => 0 to ->new() to disable this feature.
+
+    If debug is set, the request URL will be dumped via warn() on get or post method calls .
 
 - get(_\[$extra\_path,\] $args_)
 
@@ -69,10 +79,23 @@ parameters, plus sugar to parse the results.
 - basic\_params
 - cache
 
-    Each request is prepended by an optional cache look-up. If you supply a cache
-    object upon new(), the module will look into the cache first.
+    Each request is prepended by an optional cache look-up. If you supply a Cache
+    object to new(), the module will look into the cache first.
+
+        my $cache   = Cache::File->new(
+            cache_root      => '/tmp/mycache',
+            default_expires => '30 min',
+        );
+        
+        my $flickr = WebService::Simple->new(
+            base_url => "http://api.flickr.com/services/rest/",
+            cache    => $cache,
+            param    => { api_key => "your_api_key, }
+        );
 
 - response\_parser
+
+    See PARSERS below.
 
 # SUBCLASSING
 
@@ -134,21 +157,6 @@ including this module:
     );
 
 This allows great flexibility in handling different Web Services
-
-# CACHING
-
-You can cache the response of Web Service by using Cache object.
-
-    my $cache   = Cache::File->new(
-        cache_root      => '/tmp/mycache',
-        default_expires => '30 min',
-    );
-    
-    my $flickr = WebService::Simple->new(
-        base_url => "http://api.flickr.com/services/rest/",
-        cache    => $cache,
-        param    => { api_key => "your_api_key, }
-    );
 
 # REPOSITORY
 
