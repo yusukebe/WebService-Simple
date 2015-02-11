@@ -3,6 +3,7 @@ requires 'Class::Data::ConfigHash';
 requires 'Class::Inspector';
 requires 'Data::Dumper';
 requires 'Digest::MD5';
+requires 'HTTP::Message';
 requires 'JSON', '2.0';
 requires 'LWP::UserAgent';
 requires 'LWP::Protocol::https';

@@ -60,6 +60,7 @@
             "Data::Dumper" : "0",
             "Digest::MD5" : "0",
             "Hash::MultiValue" : "0",
+            "HTTP::Message" : "0",
             "JSON" : "2.0",
             "LWP::Protocol::https" : "0",
             "LWP::UserAgent" : "0",
