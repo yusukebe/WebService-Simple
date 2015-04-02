@@ -66,18 +66,15 @@ sub new {
                 : %{ $config->{args} } );
         }
     }
-    my $compression = delete $args{compression};
-    my $croak = delete $args{croak};
-    my $content_type = delete $args{content_type};
 
     my $self = $class->SUPER::new(%args);
     $self->{base_url}        = $base_url;
     $self->{basic_params}    = $basic_params;
     $self->{response_parser} = $response_parser;
     $self->{cache}           = $cache;
-    $self->{compression}     = $compression;
-    $self->{content_type}    = $content_type;
-    $self->{croak}           = $croak;
+    $self->{compression}     = delete $args{compression};
+    $self->{content_type}    = delete $args{content_type};
+    $self->{croak}           = delete $args{croak};
     $self->{debug}           = $debug;
 
     if($self->{content_type} && $self->{content_type} eq 'application/json'){
