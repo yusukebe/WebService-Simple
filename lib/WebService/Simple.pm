@@ -68,6 +68,7 @@ sub new {
     }
     my $compression = delete $args{compression};
     my $croak = delete $args{croak};
+    my $content_type = delete $args{content_type};
 
     my $self = $class->SUPER::new(%args);
     $self->{base_url}        = $base_url;
@@ -75,8 +76,16 @@ sub new {
     $self->{response_parser} = $response_parser;
     $self->{cache}           = $cache;
     $self->{compression}     = $compression;
+    $self->{content_type}    = $content_type;
     $self->{croak}           = $croak;
     $self->{debug}           = $debug;
+
+    if($self->{content_type} && $self->{content_type} eq 'application/json'){
+	$self->__init_request_parser_json();
+    }else{
+        $self->{request_parser} = sub { return \$_[0] };
+    }
+
     return $self;
 }
 
@@ -85,6 +94,7 @@ sub _agent       { "libwww-perl/$LWP::VERSION+". __PACKAGE__ .'/'.$VERSION }
 sub base_url        { $_[0]->{base_url} }
 sub basic_params    { $_[0]->{basic_params} }
 sub response_parser { $_[0]->{response_parser} }
+sub request_parser  { $_[0]->{request_parser} }
 sub cache           { $_[0]->{cache} }
 
 sub __cache_get {
@@ -120,6 +130,13 @@ sub __cache_key {
     local $Data::Dumper::Terse    = 1;
     local $Data::Dumper::Sortkeys = 1;
     return Digest::MD5::md5_hex( Data::Dumper::Dumper( $_[0] ) );
+}
+
+sub __init_request_parser_json {
+    my $self = shift;
+    require WebService::Simple::Parser::JSON;
+    my $json_parser = WebService::Simple::Parser::JSON->new();
+    $self->{request_parser_json} = sub { $json_parser->parse_request(@_); }
 }
 
 sub request_url {
@@ -214,21 +231,43 @@ sub post {
         $url = shift @_;
     }
 
-    my $uri = $self->request_url(
-        url => $self->base_url,
-        extra_path => $url,
-        params => Hash::MultiValue->new(%{$self->basic_params}, %$extra),
-    );
-    my $content = $uri->query_form_hash();
-    $uri->query_form(undef);
-
     my @headers = @_;
     unless(defined($self->{compression}) && !$self->{compression}){
         my $can_accept = HTTP::Message::decodable();
         push @headers, ('Accept-Encoding' => $can_accept) ;
     }
+    my %headers = @headers;
 
-    my $response = $self->SUPER::post( $uri, $content, @headers );
+    # Content-Type tells us where "extra params" go: form-urlencoded -> $uri / json/xml -> $content
+    my ($uri,$response);
+  
+    if( ($self->{content_type} && $self->{content_type} eq 'application/json') || ($headers{'Content-Type'} && $headers{'Content-Type'} eq 'application/json') ){
+	$self->__init_request_parser_json() unless $self->{request_parser_json};
+
+        $uri = $self->request_url(
+	    url => $self->base_url,
+            extra_path => $url,
+            # params => Hash::MultiValue->new(%{$self->basic_params}, %$extra), # this'll go to content
+        );
+        # $uri->query_form(undef); # we'll leave all params on the url
+
+        my $req = HTTP::Request->new(POST => $uri, \@headers);
+        $req->content_type('application/json');
+        $req->content($self->{request_parser_json}->({ %{$self->basic_params}, %$extra }));
+        $response = $self->SUPER::request($req);
+    }else{
+        $uri = $self->request_url(
+	    url => $self->base_url,
+            extra_path => $url,
+            params => Hash::MultiValue->new(%{$self->basic_params}, %$extra),
+        );
+        my $content = $uri->query_form_hash();
+        $uri->query_form(undef);
+
+	push(@headers, 'Content-Type' => $self->{content_type}) if $self->{content_type};
+
+        $response = $self->SUPER::post( $uri, $content, @headers );
+    }
 
     if ( $response->is_success ) {
         $response = WebService::Simple::Response->new_from_response(
@@ -285,9 +324,10 @@ parameters, plus sugar to parse the results.
     my $flickr = WebService::Simple->new(
         base_url => "http://api.flickr.com/services/rest/",
         param    => { api_key => "your_api_key", },
-        # compression => 0
-        # croak       => 0
-        # debug       => 1
+        # compression  => 0
+        # content_type => 'application/json'
+        # croak        => 0
+        # debug        => 1
     );
 
 Create and return a new WebService::Simple object.
@@ -307,7 +347,7 @@ If debug is set, the request URL will be dumped via warn() on get or post method
     my $response =
       $flickr->get( { method => "flickr.test.echo", name => "value" } );
 
-Send GET request, and you can get  the WebService::Simple::Response object.
+Send a GET request, and you can get the WebService::Simple::Response object.
 If you want to add a path to base URL, use an option parameter.
 
     my $lingr = WebService::Simple->new(
@@ -316,9 +356,33 @@ If you want to add a path to base URL, use an option parameter.
     );
     my $response = $lingr->get( 'api/session/create', {} );
 
-=item post(I<[$extra_path,] $args>)
+=item post(I<$args_ref, @headers>)
 
-Send POST request.
+=item post(I<$extra_path, $args_ref, @headers>)
+
+=item post(I<$extra_path, @headers>)
+
+Send a POST request.
+
+    my $ws = WebService::Simple->new(
+        base_url => 'http://example.com/',
+        param   =>  { aaa => 'zzz' },
+    );
+    my $response = $ws->post('api/echo', { hello => 'world'});
+
+By default, POST requests will have Content-Type application/x-www-form-urlencoded.
+That means, the content of a post request, the message body, is a string of your
+urlencoded parameters. You can change this by setting a different default value
+upon construction by passing content_type => 'application/json' to ->new(). Or on
+a per-request basis by setting the Content-Type header. JSON request encoding is
+currently the only supported content type for this feature.
+
+    my $ws = WebService::Simple->new(
+        base_url => 'http://example.com/',
+        param   =>  { aaa => 'zzz' },
+    #   content_type => 'application/json', # either here
+    );
+    my $response = $ws->post('api/echo', { hello => 'world' }, 'Content-Type' => 'application/json'); # or here
 
 =item request_url(I<$extra_path, $args>)
 
