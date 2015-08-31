@@ -15,14 +15,14 @@ BEGIN {
 {
     my $service = WebService::Simple->new(
         response_parser => 'XML::Feed',
-        base_url        => "http://gdata.youtube.com/feeds/api/videos",
+        base_url        => "http://search.cpan.org/uploads.rdf",
     );
 
     isa_ok( $service->response_parser,
         "WebService::Simple::Parser::XML::Feed" );
 
-    my $response = $service->get( { q => "oasis" } );
+    my $response = $service->get( {} );
     my $feed = $response->parse_response;
-    like( ref($feed), qr/^(?:XML::Feed::Atom|XML::Feed::Format::Atom)$/ );
+    like( ref($feed), qr/^(?:XML::Feed::RSS|XML::Feed::Format::RSS)$/ );
 }
 
