@@ -4,7 +4,7 @@
       "Yusuke Wada  C<< <yusuke@kamawada.com> >>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v2.3.0, CPAN::Meta::Converter version 2.142690",
+   "generated_by" : "Minilla/v2.5.0, CPAN::Meta::Converter version 2.150005",
    "license" : [
       "perl_5"
    ],
@@ -59,8 +59,8 @@
             "Class::Inspector" : "0",
             "Data::Dumper" : "0",
             "Digest::MD5" : "0",
-            "Hash::MultiValue" : "0",
             "HTTP::Message" : "0",
+            "Hash::MultiValue" : "0",
             "JSON" : "2.0",
             "LWP::Protocol::https" : "0",
             "LWP::UserAgent" : "0",
@@ -82,7 +82,7 @@
          "web" : "https://github.com/yusukebe/WebService-Simple"
       }
    },
-   "version" : "0.24",
+   "version" : "0.25",
    "x_authority" : "cpan:YUSUKEBE",
    "x_contributors" : [
       "Daisuke Maki <dmaki@cpan.org>",
@@ -92,6 +92,9 @@
       "Matsuno Tokuhiro <tokuhirom@gmail.com>",
       "Naoki Tomita <tomita@cpan.org>",
       "isync <o.zucker@web.de>",
+      "Tim Vroom <vroom@blockstackers.com>",
+      "isync <O.Zucker@web.de>",
       "Yusuke Wada <yusuke@kamawada.com>"
-   ]
+   ],
+   "x_serialization_backend" : "JSON::PP version 2.27203"
 }

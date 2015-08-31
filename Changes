@@ -2,7 +2,10 @@ Revision history for WebService-Simple
 
 {{$NEXT}}
 
+0.25 2015-08-31T10:41:04Z
+
       - Use search.cpan.org uploads feeds for the test instead of YouTube feeds, thank you @eserte
+      - Support application/json POST requests by @isync, thank you!
 
 0.24 2015-01-17T06:20:25Z
 

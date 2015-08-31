@@ -12,7 +12,7 @@ use Hash::MultiValue;
 use WebService::Simple::Response;
 use UNIVERSAL::require;
 
-our $VERSION = '0.24';
+our $VERSION = '0.25';
 
 __PACKAGE__->config(
     base_url        => '',

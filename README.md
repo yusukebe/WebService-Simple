@@ -36,9 +36,10 @@ parameters, plus sugar to parse the results.
         my $flickr = WebService::Simple->new(
             base_url => "http://api.flickr.com/services/rest/",
             param    => { api_key => "your_api_key", },
-            # compression => 0
-            # croak       => 0
-            # debug       => 1
+            # compression  => 0
+            # content_type => 'application/json'
+            # croak        => 0
+            # debug        => 1
         );
 
     Create and return a new WebService::Simple object.
@@ -58,7 +59,7 @@ parameters, plus sugar to parse the results.
         my $response =
           $flickr->get( { method => "flickr.test.echo", name => "value" } );
 
-    Send GET request, and you can get  the WebService::Simple::Response object.
+    Send a GET request, and you can get the WebService::Simple::Response object.
     If you want to add a path to base URL, use an option parameter.
 
         my $lingr = WebService::Simple->new(
@@ -67,9 +68,31 @@ parameters, plus sugar to parse the results.
         );
         my $response = $lingr->get( 'api/session/create', {} );
 
-- post(_\[$extra\_path,\] $args_)
+- post(_$args\_ref, @headers_)
+- post(_$extra\_path, $args\_ref, @headers_)
+- post(_$extra\_path, @headers_)
 
-    Send POST request.
+    Send a POST request.
+
+        my $ws = WebService::Simple->new(
+            base_url => 'http://example.com/',
+            param   =>  { aaa => 'zzz' },
+        );
+        my $response = $ws->post('api/echo', { hello => 'world'});
+
+    By default, POST requests will have Content-Type application/x-www-form-urlencoded.
+    That means, the content of a post request, the message body, is a string of your
+    urlencoded parameters. You can change this by setting a different default value
+    upon construction by passing content\_type => 'application/json' to ->new(). Or on
+    a per-request basis by setting the Content-Type header. JSON request encoding is
+    currently the only supported content type for this feature.
+
+        my $ws = WebService::Simple->new(
+            base_url => 'http://example.com/',
+            param   =>  { aaa => 'zzz' },
+        #   content_type => 'application/json', # either here
+        );
+        my $response = $ws->post('api/echo', { hello => 'world' }, 'Content-Type' => 'application/json'); # or here
 
 - request\_url(_$extra\_path, $args_)
 
