@@ -16,10 +16,10 @@ BEGIN
 
 {
     my $simple = WebService::Simple->new(
-        base_url => "http://api.flickr.com/services/rest/",
+        base_url => "https://api.flickr.com/services/rest/",
         params   => {
             api_key => $flickr_api_key
-        }
+        },
     );
 
     ok($simple, "object created ok");
@@ -48,7 +48,7 @@ BEGIN
 SKIP: {
     eval { require Cache::Memory };
     if ($@) {
-        skip(2, "Cache::Memory not installed");
+        skip("Cache::Memory not installed", 2);
     }
 
     my $called = 0;

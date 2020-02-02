@@ -22,7 +22,7 @@ sub parse_response
 {
     my $self = shift;
     XML::Parser::Lite::Tree::XPath->new(
-        $self->{lite}->parse( $_[0]->content ) );
+        $self->{lite}->parse( $_[0]->decoded_content ) );
 }
 
 1;

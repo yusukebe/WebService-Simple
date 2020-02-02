@@ -30,6 +30,7 @@ subtest 'no default param / post()' => sub
     $ws->post({}, 'X-Test' => 'boo');
     is($req->uri->as_string, 'http://example.com/', "empty args + header");
     is($req->header('X-Test'), 'boo', "empty args + header");
+    is($req->header('Content-Type'), 'application/x-www-form-urlencoded', "content-type is 'application/x-www-form-urlencoded'");
 
     $ws->post('foo');
     is($req->uri->as_string, 'http://example.com/foo', "extra_path");
@@ -110,6 +111,53 @@ subtest 'with default param / post()' => sub
     
     $ws->post({ bar => 123 }, 'Content' => { xxx => 'yyy' });
     is($req->content, 'xxx=yyy', "Content overwriting default_arg and arg");
+};
+
+subtest 'Content-Type: application/json on construction / post()' => sub
+{
+    # trigger a JSON request by defining content_type 'application/json' on construction
+    my $ws = WebService::Simple->new(
+        base_url => 'http://example.com/',
+        param   =>  { aaa => 'zzz' },
+        content_type => 'application/json',
+    );
+    
+    my $req;
+    $ws->add_handler(request_send => sub {
+        $req = shift;
+        HTTP::Response->new(200, 'OK');
+    });
+
+    my $query_url = URI->new();
+
+    $ws->post({ bar => 123 }, 'X-Test' => 'boo');
+    is($req->uri->as_string, 'http://example.com/', "no extra_path");
+    is($req->header('X-Test'), 'boo', "header");
+    is($req->header('Content-Type'), 'application/json', "content-type is 'application/json'");
+    like($req->content, qr/^\{/, "Content is JSON, default params + args"); # unsorted '{"bar":123,"aaa":"zzz"}'
+};
+
+subtest 'as Content-Type: application/json on post() / post()' => sub
+{
+    # trigger a JSON request by passing the Content-Type header
+    my $ws = WebService::Simple->new(
+        base_url => 'http://example.com/',
+        param   =>  { aaa => 'zzz' },
+    );
+    
+    my $req;
+    $ws->add_handler(request_send => sub {
+        $req = shift;
+        HTTP::Response->new(200, 'OK');
+    });
+
+    my $query_url = URI->new();
+
+    $ws->post({ bar => 123 }, 'Content-Type' => 'application/json', 'X-Test' => 'boo');
+    is($req->uri->as_string, 'http://example.com/', "no extra_path");
+    is($req->header('X-Test'), 'boo', "header");
+    is($req->header('Content-Type'), 'application/json', "content-type is 'application/json'");
+    like($req->content, qr/^\{/, "Content is JSON, default params + args"); # unsorted '{"bar":123,"aaa":"zzz"}'
 };
 
 done_testing();

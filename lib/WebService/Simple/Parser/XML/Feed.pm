@@ -13,7 +13,7 @@ sub new {
 
 sub parse_response {
     my $self = shift;
-    my $content = $_[0]->content;
+    my $content = $_[0]->decoded_content;
     XML::Feed->parse( \$content );
 }
 

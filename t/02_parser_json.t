@@ -9,11 +9,11 @@ BEGIN
 
 {
     my $service = WebService::Simple->new(
-        base_url => "http://api.flickr.com/services/rest/",
+        base_url => "https://api.flickr.com/services/rest/",
         response_parser => 'JSON',
         params   => {
             api_key => $flickr_api_key
-        }
+        },
     );
 
     isa_ok( $service->response_parser, "WebService::Simple::Parser::JSON");
