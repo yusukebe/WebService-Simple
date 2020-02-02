@@ -147,7 +147,7 @@ sub request_url {
     }
     if($args{params}) {
         if(ref $args{params} eq 'Hash::MultiValue') {
-            for my $key ($args{params}->keys) {
+            for my $key (sort $args{params}->keys) {
                 $uri->query_param_append($key, $args{params}->get($key));
             }
         }else{
