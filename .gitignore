@@ -29,3 +29,5 @@ MYMETA.*
 /Build.bat
 !META.json
 !LICENSE
+local
+cpanfile.snapshot
